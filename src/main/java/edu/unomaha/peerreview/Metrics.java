@@ -9,5 +9,5 @@ package edu.unomaha.peerreview;
  */
 public class Metrics {
 
-	// This is just a test for my first commit
+	// This is just a test for my second commit by creating a new branch
 }
