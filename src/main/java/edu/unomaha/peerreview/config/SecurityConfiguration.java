@@ -9,6 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfiguration {
 
+	public static final String StudentRole = "ROLE_STUDENT";
+	public static final String ProfessorRole = "ROLE_PROFESSOR";
+	public static final String AdminRole = "ROLE_ADMIN";
+	
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
