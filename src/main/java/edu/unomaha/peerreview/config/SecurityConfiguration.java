@@ -1,14 +1,29 @@
 package edu.unomaha.peerreview.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+import edu.unomaha.peerreview.database.JdbcUserDao;
+import edu.unomaha.peerreview.utilities.AuthUtilities;
 
 @Configuration
-public class SecurityConfiguration {
+@EnableWebSecurity
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
+	private static String[] PERMITTED_URLS = {"/", "/index.html", "/webjars/**", "/js/**", "/font-awesome/**", 
+			"/css/**", "/views/**", "/img/**", "/#!/**", "/login","/api/**"};
+	
 	public static final String StudentRole = "ROLE_STUDENT";
 	public static final String ProfessorRole = "ROLE_PROFESSOR";
 	public static final String AdminRole = "ROLE_ADMIN";
@@ -16,9 +31,38 @@ public class SecurityConfiguration {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.httpBasic()
+			.and()
+				.authorizeRequests().antMatchers(PERMITTED_URLS).permitAll().anyRequest().authenticated()
+			.and()
+				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+	}
+	
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+	}
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new JdbcUserDao();
+	}
+	
+	@Bean
+	public AuthUtilities auth() {
+		return new AuthUtilities();
 	}
 	
 }
