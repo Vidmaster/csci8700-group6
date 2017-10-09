@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>peer-review</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Peer Review Application for CSCI 8700</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -56,7 +56,45 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>angularjs</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-route</artifactId>
+		    <version>1.5.8</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-animate</artifactId>
+		    <version>1.5.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-resource</artifactId>
+		    <version>1.5.8</version>
+		</dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+        </dependency>
+		
 	</dependencies>
+
 
 	<build>
 		<plugins>
