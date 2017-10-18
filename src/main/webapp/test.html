@@ -21,36 +21,46 @@
 		<script src="https://angular-data-grid.github.io/dist/pagination.min.js"></script>
 		<script src="https://angular-data-grid.github.io/dist/dataGrid.min.js"></script>
 	  	   
-		<link rel = "stylesheet" href = "css/test.css">
-		<script type="text/javascript" src="js/test.js"></script>
+		<link rel = "stylesheet" href = "/css/test.css">
+		<script type="text/javascript" src="/js/test.js"></script>
 			
 		
 		<!-- peerreviews controller -->
-		<script type="text/javascript" src="app/peerreviews/peerreviews.controller.js"></script> 
+		<script type="text/javascript" src="/app/peerreviews/peerreviews.controller.js"></script> 
 		<!-- peerreviews factory -->
-		<script type="text/javascript" src="app/peerreviews/peerreviews.factory.js"></script>
+		<script type="text/javascript" src="/app/peerreviews/peerreviews.factory.js"></script>
 		
 		<!-- students controller -->
-		<script type="text/javascript" src="app/students/students.controller.js"></script> 
+		<script type="text/javascript" src="/app/students/students.controller.js"></script> 
 		<!-- students factory -->
-		<script type="text/javascript" src="app/students/students.factory.js"></script>
+		<script type="text/javascript" src="/app/students/students.factory.js"></script>
 		
 		<!-- metrics controller -->
-		<script type="text/javascript" src="app/metrics/metrics.controller.js"></script> 
+		<script type="text/javascript" src="/app/metrics/metrics.controller.js"></script> 
 		<!-- metrics factory -->
-		<script type="text/javascript" src="app/metrics/metrics.factory.js"></script>
+		<script type="text/javascript" src="/app/metrics/metrics.factory.js"></script>
       
    </head>
    
 
 <body ng-app="myApp" ng-controller="AppCtrl" ng-cloak>
-
 	<div layout="column" layout-fill>
 		<header>
 		  <md-toolbar md-scroll-shrink>
-			<div class = "md-toolbar-tools">
-			  <b><h1>Peer Review App.</h1></b>
+			<div class = "md-toolbar-tools" layout="row">
+			  <div flex="80">	
+			  	<h1><b>Peer Review App.</b> (Professor View)</h1>
+			  </div>
+			  	
+			  <div layout="row" layout-align="end center" flex>
+			  	<div>
+				  <md-button class="md-fab md-primary md-hue-2" ng-click="showStudentView()" aria-label="Profile">
+		            <md-icon md-svg-src="/app/img/icons/twopeople.svg"></md-icon>
+		          </md-button>
+		        </div>
+			  </div>
 			</div>
+			
 			<md-content class="md-padding">
 				<md-tabs md-selected="data.selectedIndex">
 				  <md-tab id="tab1">

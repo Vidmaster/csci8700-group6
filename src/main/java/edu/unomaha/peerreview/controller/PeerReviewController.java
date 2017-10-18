@@ -29,6 +29,11 @@ public class PeerReviewController {
 		return "test";
 	}
 	
+	@GetMapping(path="/peerreview/studentview")
+	public String test2() {
+	    return "test2";
+	}
+	
 	@RequestMapping(value="/api/peerreview/all")
 	public @ResponseBody Iterable<PeerReview> getAllPeerReviews() {
 		return peerreviewRepository.findAll();

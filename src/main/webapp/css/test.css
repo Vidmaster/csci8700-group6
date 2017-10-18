@@ -2,10 +2,6 @@
       background-color: #008080;
     }
 
-header .md-toolbar-tools {
-	  font-size: 140%;
-}
-	
 footer .md-toolbar-tools {
     position: absolute;
 	bottom: 0;
@@ -172,3 +168,4 @@ md-dialog{ width:50%; }
 .t-a-c{ text-align:center; }
 .t-a-l{ text-align:left; }
 .margin-bottom-1em{ margin-bottom:1em; }
+
