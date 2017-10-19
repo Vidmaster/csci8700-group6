@@ -13,13 +13,13 @@ import edu.unomaha.peerreview.database.UserDao;
 @Configuration
 public class PeerReviewConfiguration {
 
-	@Value("${DB_USER}")
+	@Value("${spring.datasource.username}")
 	private String username;
 	
-	@Value("${DB_PASSWORD}")
+	@Value("${spring.datasource.password}")
 	private String password;
 	
-	@Value("${DB_URL}")
+	@Value("${spring.datasource.url}")
 	private String url;
 	
 	@Bean

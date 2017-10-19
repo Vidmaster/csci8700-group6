@@ -20,7 +20,7 @@ import edu.unomaha.peerreview.utilities.AuthUtilities;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	private static String[] PERMITTED_URLS = {"/", "/index.html", "/webjars/**", "/js/**", "/font-awesome/**", 
-			"/css/**", "/views/**", "/img/**", "/#!/**", "/login","/api/**"};
+			"/css/**", "/views/**", "/img/**", "/#!/**", "/login","/api/**", "/favicon.ico", "/app/**"};
 	
 	public static final String StudentRole = "ROLE_STUDENT";
 	public static final String ProfessorRole = "ROLE_PROFESSOR";
