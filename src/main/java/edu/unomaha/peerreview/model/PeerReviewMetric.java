@@ -4,8 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name="peerreview_metric")
@@ -20,6 +24,9 @@ public class PeerReviewMetric {
  
  @Column(name="peerreview_metric_type")
  private String peerreviewMetricType;
+ 
+ @OneToMany(mappedBy = "peerreview_metric")
+ private List<PeerReviewData> peerreviewData;
  
  @Override
  public String toString() {

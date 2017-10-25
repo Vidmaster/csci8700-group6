@@ -1,11 +1,19 @@
 package edu.unomaha.peerreview.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name="peerreview")
@@ -21,10 +29,22 @@ public class PeerReview {
  @Column(name="peerreview_description")
  private String peerreviewDescription;
  
+ @Column(name="peerreview_students")
+ private String peerreviewStudents;
+ 
+ @Column(name="peerreview_metrics")
+ private String peerreviewMetrics;
+ 
+ @OneToMany(mappedBy = "peerreview")
+ private List<PeerReviewData> peerreviewData;
+ 
  @Override
  public String toString() {
   return "PeerrReview [id=" + getId() + ", peerreviewName=" + getPeerreviewName()
-    + ", peerreviewDescription=" + getPeerreviewDescription() + "]";
+    + ", peerreviewDescription=" + getPeerreviewDescription()
+    + ", peerreviewStudents=" + getPeerreviewStudents()
+    + ", peerreviewMetrics=" + getPeerreviewMetrics()
+    + "]";
  }
 
 /**
@@ -67,5 +87,21 @@ public String getPeerreviewDescription() {
  */
 public void setPeerreviewDescription(String peerreviewDescription) {
 	this.peerreviewDescription = peerreviewDescription;
+}
+
+public String getPeerreviewStudents() {
+	return peerreviewStudents;
+}
+
+public void setPeerreviewStudents(String peerreviewStudents) {
+	this.peerreviewStudents = peerreviewStudents;
+}
+
+public String getPeerreviewMetrics() {
+	return peerreviewMetrics;
+}
+
+public void setPeerreviewMetrics(String peerreviewMetrics) {
+	this.peerreviewMetrics = peerreviewMetrics;
 }
 }

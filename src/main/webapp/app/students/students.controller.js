@@ -305,4 +305,5 @@ myApp.controller('studentsController', function($scope, $mdDialog, $mdToast, stu
 			$mdDialog.cancel();
 		};
 	}
+		
 });
