@@ -1,4 +1,4 @@
-package edu.unomaha.peerreview.api;
+package edu.unomaha.peerreview.controller;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.unomaha.peerreview.config.SecurityConfiguration;
 import edu.unomaha.peerreview.database.UserDao;
-import edu.unomaha.peerreview.domain.ServiceResponse;
-import edu.unomaha.peerreview.domain.User;
+import edu.unomaha.peerreview.model.ServiceResponse;
+import edu.unomaha.peerreview.model.User;
 import edu.unomaha.peerreview.utilities.AuthUtilities;
 
 @RestController

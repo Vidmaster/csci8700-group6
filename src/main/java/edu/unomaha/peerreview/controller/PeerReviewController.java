@@ -23,7 +23,7 @@ public class PeerReviewController {
 	@Autowired
 	private PeerReviewRepository peerreviewRepository;
 	
-	@GetMapping(path="")
+	@GetMapping(path="/test")
 	public String index() {
 	    //return "peerreview/index";
 		return "test";

@@ -2,7 +2,7 @@ package edu.unomaha.peerreview.database;
 
 import java.util.List;
 
-import edu.unomaha.peerreview.domain.User;
+import edu.unomaha.peerreview.model.User;
 
 public interface UserDao {
 

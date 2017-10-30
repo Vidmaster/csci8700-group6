@@ -1,4 +1,4 @@
-package edu.unomaha.peerreview.domain;
+package edu.unomaha.peerreview.model;
 
 public class ServiceResponse {
 	private boolean success;

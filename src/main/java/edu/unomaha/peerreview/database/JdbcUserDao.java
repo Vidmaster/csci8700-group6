@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import edu.unomaha.peerreview.domain.User;
+import edu.unomaha.peerreview.model.User;
 
 public class JdbcUserDao implements UserDao, UserDetailsService {
 	private static final String ALL_COLUMNS = "id, username, email, password, enabled";

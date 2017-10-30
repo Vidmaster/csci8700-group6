@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import edu.unomaha.peerreview.domain.User;
+import edu.unomaha.peerreview.model.User;
 
 public class AuthUtilities {
 	@Autowired

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import edu.unomaha.peerreview.domain.User;
+import edu.unomaha.peerreview.model.User;
 
 public class UserRowMapper implements RowMapper<User> {
 
