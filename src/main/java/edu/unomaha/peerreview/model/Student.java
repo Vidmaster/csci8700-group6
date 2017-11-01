@@ -4,8 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name="student")
@@ -20,6 +24,12 @@ public class Student {
  
  @Column(name="student_emailaddress")
  private String studentEmailAddress;
+ 
+  @OneToMany(mappedBy = "student")
+  private List<PeerReviewData> peerreviewDataS;
+  
+  @OneToMany(mappedBy = "reviewer")
+  private List<PeerReviewData> peerreviewDataR;
  
  @Override
  public String toString() {

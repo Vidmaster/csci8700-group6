@@ -9,6 +9,22 @@ myApp.factory("peerreviewsFactory", function($http){
             url: 'http://localhost:8082/api/peerreview/all'
         });
     };
+    
+    // read all students
+    factory.readPStudents = function(){
+        return $http({
+            method: 'GET',
+            url: 'http://localhost:8082/api/student/all'
+        });
+    };
+    
+ // read all metrics
+    factory.readPMetrics = function(){
+        return $http({
+            method: 'GET',
+            url: 'http://localhost:8082/api/metric/all'
+        });
+    };
      
     // create peerreview
 	factory.createPeerreview = function($scope){
@@ -16,7 +32,9 @@ myApp.factory("peerreviewsFactory", function($http){
 			method: 'POST',
 			data: {
 				'peerreviewName' : $scope.name,
-				'peerreviewDescription' : $scope.description
+				'peerreviewDescription' : $scope.description,
+				'peerreviewStudents' : $scope.selectedStudents.toString(),
+				'peerreviewMetrics' : $scope.selectedMetrics.toString()
 			},
 			url: 'http://localhost:8082/api/peerreview/create'
 		});
@@ -38,7 +56,9 @@ myApp.factory("peerreviewsFactory", function($http){
 			data: {
 				'id' : $scope.id,
 				'peerreviewName' : $scope.name,
-				'peerreviewDescription' : $scope.description
+				'peerreviewDescription' : $scope.description,
+				'peerreviewStudents' : $scope.selectedStudents.toString(),
+				'peerreviewMetrics' : $scope.selectedMetrics.toString()
 			},
 			url: 'http://localhost:8082/api/peerreview/update'
 		});
@@ -58,6 +78,23 @@ myApp.factory("peerreviewsFactory", function($http){
 		return $http({
 			method: 'GET',
 			url: 'http://localhost:8082/api/peerreview/search?s=' + keywords
+		});
+	};
+	
+	// run peerreview
+	factory.runPeerreview = function(id){
+		return $http({
+			method: 'POST',
+			data: { 'id' : id },
+			url: 'http://localhost:8082/api/peerreview/run'
+		});
+	};
+	
+	// search all data grid
+	factory.getDataGrid = function(){
+		return $http({
+			method: 'GET',
+			url: 'http://localhost:8082/api/peerreview/result'
 		});
 	};
      

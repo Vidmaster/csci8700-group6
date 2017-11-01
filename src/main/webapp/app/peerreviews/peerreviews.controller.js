@@ -1,4 +1,32 @@
-myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, peerreviewsFactory){
+myApp.controller('peerreviewsController', function($scope, $element, $mdDialog, $mdToast, peerreviewsFactory){
+	
+	// read students for pr
+    $scope.readPStudents = function(){ 
+        // use peerreviews factory
+    	peerreviewsFactory.readPStudents().then(function successCallback(response){
+    		console.log(response);
+            $scope.pstudents = response.data;
+        }, function errorCallback(response){
+            $scope.showToast("Unable to read record.");
+        }); 
+    }
+    
+    // read metrics for pr
+    $scope.readPMetrics = function(){ 
+        // use peerreviews factory
+    	peerreviewsFactory.readPMetrics().then(function successCallback(response){
+    		console.log(response);
+            $scope.pmetrics = response.data;
+        }, function errorCallback(response){
+            $scope.showToast("Unable to read record.");
+        }); 
+    }
+	
+    // The md-select directive eats keydown events for some quick select
+    // logic. Since we have a search input here, we don't need that logic.
+    $element.find('input').on('keydown', function(ev) {
+        ev.stopPropagation();
+    });
  
     // read peerreviews
     $scope.readPeerreviews = function(){
@@ -21,31 +49,53 @@ myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, 
 			$mdDialog.show({
 			controller: DialogController,
 			template:
-						'<md-dialog>' +
-						'    <form ng-cloak>' + 
-						'        <md-toolbar>' +
-						'            <div class="md-toolbar-tools">' +
-						'                <h2>Create Peer Review</h2>' +
-						'            </div>' +
-						'        </md-toolbar>' +
-						'        <md-dialog-content>' +
-						'            <div class="md-dialog-content">' +
-						'                <md-input-container class="md-block">' +
-						'                    <label>Name</label>' +
-						'                    <input ng-model="name">' +
-						'                </md-input-container>' +
-						'                <md-input-container class="md-block">' +
-						'                    <label>Description</label>' +
-						'                    <input ng-model="description">' +
-						'                </md-input-container>' +
-						'            </div>' +
-						'        </md-dialog-content>' +
-						'        <md-dialog-actions layout="row">' +
-						'            <md-button ng-click="cancel()">Cancel</md-button>' +
-						'            <md-button ng-click="createPeerreview()" class="md-primary">Create</md-button>' +
-						'        </md-dialog-actions>' +
-						'    </form>' +
-						'</md-dialog>',
+				'<md-dialog>' +
+				'    <form ng-cloak>' +
+				'        <md-toolbar>' +
+				'            <div class="md-toolbar-tools">' +
+				'                <h2>Create Peer Review</h2>' +
+				'            </div>' +
+				'        </md-toolbar>' +
+				'        <md-dialog-content>' +
+				'            <div class="md-dialog-content">' +
+				'                <md-input-container class="md-block">' +
+				'                    <label>Name</label>' +
+				'                    <input ng-model="name">' +
+				'                </md-input-container>' +
+				'                <md-input-container class="md-block">' +
+				'                    <label>Description</label>' +
+				'                    <input ng-model="description">' +
+				'                </md-input-container>' +
+				'				<div class="md-padding" ng-cloak>' +
+				'						<div layout="row">' +
+				'						  <md-input-container>' +
+				'							<label>Students</label>' +
+				'							<md-select ng-init="readPStudents()" ng-model="selectedStudents" data-md-container-class="selectdemoSelectHeader" multiple>' +
+				'							  <md-optgroup label="students">' +
+				'								<md-option ng-value="student.id" ng-repeat="student in pstudents">{{student.studentName}}</md-option>' +
+				'							  </md-optgroup>' +
+				'							</md-select>' +
+				'						  </md-input-container>' +
+				'						</div>' +
+				'						<div layout="row">' +
+				'						  <md-input-container>' +
+				'							<label>Metrics</label>' +
+				'							<md-select ng-init="readPMetrics()" ng-model="selectedMetrics" data-md-container-class="selectdemoSelectHeader" multiple>' +
+				'							  <md-optgroup label="metrics">' +
+				'								<md-option ng-value="metric.id" ng-repeat="metric in pmetrics">{{metric.peerreviewMetricDefinition}}</md-option>' +
+				'							  </md-optgroup>' +
+				'							</md-select>' +
+				'						  </md-input-container>' +
+				'						</div>' +
+				'				</div>' +
+				'            </div>' +
+				'        </md-dialog-content>' +
+				'        <md-dialog-actions layout="row">' +
+				'            <md-button ng-click="cancel()">Cancel</md-button>' +
+				'            <md-button ng-click="createPeerreview()" class="md-primary">Create</md-button>' +
+				'        </md-dialog-actions>' +
+				'    </form>' +
+				'</md-dialog>',
 			parent: angular.element(document.body),
 			clickOutsideToClose: true,
 			scope: $scope,
@@ -88,6 +138,8 @@ myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, 
 			$scope.id = response.data.id;
 			$scope.name = response.data.peerreviewName;
 			$scope.description = response.data.peerreviewDescription;
+			$scope.selectedStudents = response.data.peerreviewStudents.split(",");
+			$scope.selectedMetrics = response.data.peerreviewMetrics.split(",");
 	 
 			$mdDialog.show({
 				controller: DialogController,
@@ -110,6 +162,28 @@ myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, 
 							'                    <label>Description</label>' +
 							'                    <input ng-model="description" disabled>' +
 							'                </md-input-container>' +
+							'				 <div class="md-padding" ng-cloak>' +
+							'						<div layout="row">' +
+							'						  <md-input-container>' +
+							'							<label>Students</label>' +
+							'							<md-select ng-disabled="true" ng-init="readPStudents()" ng-model="selectedStudents" data-md-container-class="selectdemoSelectHeader" multiple>' +
+							'							  <md-optgroup label="students">' +
+							'								<md-option ng-value="student.id" ng-repeat="student in pstudents">{{student.studentName}}</md-option>' +
+							'							  </md-optgroup>' +
+							'							</md-select>' +
+							'						  </md-input-container>' +
+							'						</div>' +
+							'						<div layout="row">' +
+							'						  <md-input-container>' +
+							'							<label>Metrics</label>' +
+							'							<md-select ng-disabled="true" ng-init="readPMetrics()" ng-model="selectedMetrics" data-md-container-class="selectdemoSelectHeader" multiple>' +
+							'							  <md-optgroup label="metrics">' +
+							'								<md-option ng-value="metric.id" ng-repeat="metric in pmetrics">{{metric.peerreviewMetricDefinition}}</md-option>' +
+							'							  </md-optgroup>' +
+							'							</md-select>' +
+							'						  </md-input-container>' +
+							'						</div>' +
+							'				 </div>' +
 							'            </div>' +
 							'        </md-dialog-content>' +
 							'        <!-- button to close the dialog box -->' +
@@ -149,6 +223,10 @@ myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, 
 			$scope.id = response.data.id;
 			$scope.name = response.data.peerreviewName;
 			$scope.description = response.data.peerreviewDescription;
+			$scope.selectedStudents = response.data.peerreviewStudents.split(",");
+			$scope.selectedMetrics = response.data.peerreviewMetrics.split(",");
+			
+			console.log($scope.selectedStudents);
 	 
 			$mdDialog.show({
 				controller: DialogController,
@@ -171,6 +249,28 @@ myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, 
 							'                    <label>Description</label>' +
 							'                    <input ng-model="description">' +
 							'                </md-input-container>' +
+							'				 <div class="md-padding" ng-cloak>' +
+							'						<div layout="row">' +
+							'						  <md-input-container>' +
+							'							<label>Students</label>' +
+							'							<md-select ng-init="readPStudents()" ng-model="selectedStudents" data-md-container-class="selectdemoSelectHeader" multiple>' +
+							'							  <md-optgroup label="students">' +
+							'								<md-option ng-value="student.id" ng-repeat="student in pstudents">{{student.studentName}}</md-option>' +
+							'							  </md-optgroup>' +
+							'							</md-select>' +
+							'						  </md-input-container>' +
+							'						</div>' +
+							'						<div layout="row">' +
+							'						  <md-input-container>' +
+							'							<label>Metrics</label>' +
+							'							<md-select ng-init="readPMetrics()" ng-model="selectedMetrics" data-md-container-class="selectdemoSelectHeader" multiple>' +
+							'							  <md-optgroup label="metrics">' +
+							'								<md-option ng-value="metric.id" ng-repeat="metric in pmetrics">{{metric.peerreviewMetricDefinition}}</md-option>' +
+							'							  </md-optgroup>' +
+							'							</md-select>' +
+							'						  </md-input-container>' +
+							'						</div>' +
+							'				 </div>' +
 							'            </div>' +
 							'        </md-dialog-content>' +
 							'        <!-- dialog box buttons -->' +
@@ -235,7 +335,7 @@ myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, 
 		// dialog settings
 		var confirm = $mdDialog.confirm()
 			.title('Are you sure?')
-			.textContent('Student will be deleted.')
+			.textContent('Peer Review will be deleted.')
 			.targetEvent(event)
 			.ok('Yes')
 			.cancel('No');
@@ -287,6 +387,8 @@ myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, 
 		$scope.id = "";
 		$scope.name = "";
 		$scope.description = "";
+		$scope.selectedStudents = "";
+		$scope.selectedMetrics = "";
 	}
 	
 	// show toast message
@@ -304,5 +406,51 @@ myApp.controller('peerreviewsController', function($scope, $mdDialog, $mdToast, 
 		$scope.cancel = function() {
 			$mdDialog.cancel();
 		};
+	}
+	
+	// run one peerreview
+	$scope.confirmRunPeerreview = function(event, id){
+		 
+		// set id of record to delete
+		$scope.id = id;
+	 
+		// dialog settings
+		var confirm = $mdDialog.confirm()
+			.title('Are you sure?')
+			.textContent('Peer review will be launched.')
+			.targetEvent(event)
+			.ok('Yes')
+			.cancel('No');
+	 
+		// show dialog
+		$mdDialog.show(confirm).then(
+			// 'Yes' button
+			function() {
+				// if user clicked 'Yes', run peerreview record
+				$scope.runPeerreview();
+			},
+	 
+			// 'No' button
+			function() {
+				// hide dialog
+			}
+		);
+	}
+	
+	// run peerreview
+	$scope.runPeerreview = function(){
+	 
+		peerreviewsFactory.runPeerreview($scope.id).then(function successCallback(response){
+	 
+			// tell the user peerreview was deleted
+			$scope.showToast(response.data.message);
+	 
+			// refresh the list
+			//$scope.readPeerreviews();
+	 
+		}, function errorCallback(response){
+			$scope.showToast("Unable to run peer review.");
+		});
+	 
 	}
 });

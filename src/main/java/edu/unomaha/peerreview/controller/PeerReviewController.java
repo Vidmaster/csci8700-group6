@@ -1,12 +1,10 @@
 package edu.unomaha.peerreview.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.unomaha.peerreview.model.PeerReview;
 import edu.unomaha.peerreview.repository.PeerReviewRepository;
+import edu.unomaha.peerreview.repository.StudentRepository;
+import edu.unomaha.peerreview.model.PeerReviewData;
+import edu.unomaha.peerreview.repository.PeerReviewDataRepository;
+import edu.unomaha.peerreview.repository.PeerReviewMetricRepository;
 
 
 @Controller
@@ -23,10 +25,25 @@ public class PeerReviewController {
 	@Autowired
 	private PeerReviewRepository peerreviewRepository;
 	
+	@Autowired
+	private StudentRepository studentRepository;
+	
+	@Autowired
+	private PeerReviewMetricRepository peerreviewMetricRepository;
+	
+	@Autowired
+	private PeerReviewDataRepository peerreviewDataRepository;
+	
 	@GetMapping(path="")
 	public String index() {
 	    //return "peerreview/index";
-		return "test";
+		//return "test";
+		return "login";
+	}
+	
+	@GetMapping(path="/peerreview/professorview")
+	public String test3() {
+	    return "test";
 	}
 	
 	@GetMapping(path="/peerreview/studentview")
@@ -80,5 +97,42 @@ public class PeerReviewController {
 	public @ResponseBody String updatePeerReview (@RequestBody PeerReview n) {
 		peerreviewRepository.save(n);
 		return "{\"message\" : \"peer review was updated.\"}";
+	}
+	
+	@PostMapping(value="/api/peerreview/run")
+	public @ResponseBody String runPeerReview(@RequestBody PeerReview n) {
+		
+		int pid = n.getId();
+		
+		PeerReview peerreview = peerreviewRepository.findOne(pid);
+		
+		//split students and metrics
+		String[] students = peerreview.getPeerreviewStudents().split(",");
+		String[] metrics = peerreview.getPeerreviewMetrics().split(",");
+		
+		//loop through all reviewers
+		for (String reviewer : students) {
+			//loop through all students
+			for (String student : students) {
+				//loop through all metrics
+				for (String metric : metrics) {
+					PeerReviewData pData = new PeerReviewData();
+					pData.setPid(peerreviewRepository.findOne(pid));
+					pData.setRid(studentRepository.findOne(Integer.parseInt(reviewer)));
+					pData.setSid(studentRepository.findOne(Integer.parseInt(student)));
+					pData.setMid(peerreviewMetricRepository.findOne(Integer.parseInt(metric)));
+					peerreviewDataRepository.save(pData);
+				}
+			}
+		}
+		
+		return "{\"message\" : \"peer review was launched.\"}";
+	}
+	
+	@RequestMapping(value="/api/peerreview/result")
+	public @ResponseBody Iterable<PeerReviewData> getAllPeerReviewResults() {
+		Iterable<PeerReviewData> datas = peerreviewDataRepository.findAll();
+		//return peerreviewDataRepository.findAll();
+		return datas;
 	}
 }
