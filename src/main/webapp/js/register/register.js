@@ -22,17 +22,17 @@ angular.module('register', [])
 			url: '/api/users',
 			data: $.param($scope.formData),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data) {
+		}).then(function(data) {
 		    console.log(data);
 		    
-		    $scope.success=data.success;
+		    $scope.success=data.data.success;
 		    
 		    if (!data.success) {
 		      // if not successful, bind errors to error variables
-		      $scope.message = data.message;
+		      $scope.message = data.data.message;
 		    } else {
 		      // if successful, bind success message to message
-		    	alert("User created successfully!");
+		    	alert(data.data.message);
 		      $scope.formData = {};
 		      $scope.message=null;
 		      $scope.success=null;

@@ -17,9 +17,9 @@ public class LoginController {
         return principal;
     }
     
-    @RequestMapping("/login")
-    public String login() {
-    	logger.debug("login");
-    	return "Logging in...";
-    }
+//    @RequestMapping("/login")
+//    public String login() {
+//    	logger.debug("login");
+//    	return "Logging in...";
+//    }
 }

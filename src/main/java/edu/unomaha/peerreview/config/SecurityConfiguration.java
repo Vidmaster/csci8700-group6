@@ -19,8 +19,9 @@ import edu.unomaha.peerreview.utilities.JdbcUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
-	private static String[] PERMITTED_URLS = {"/", "/index.html", "/test.html", "/test2.html", "/webjars/**", "/js/**", "/font-awesome/**", 
-			"/css/**", "/views/**", "/img/**", "/#!/**", "/login","/api/**", "/favicon.ico", "/app/**"};
+	private static String[] PERMITTED_URLS = {"/", "/index.html", "/test.html", "/test2.html", "/webjars/**", 
+			"/js/**", "/font-awesome/**", "/user",
+			"/css/**", "/views/**", "/img/**", "/#!/**", "/login", "/api/**", "/favicon.ico", "/app/**"};
 	
 	public static final String StudentRole = "ROLE_STUDENT";
 	public static final String ProfessorRole = "ROLE_PROFESSOR";
