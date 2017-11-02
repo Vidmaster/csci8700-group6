@@ -5,6 +5,7 @@ angular.module('peerReviewApp',
 		 'prIndex',
 		 'myApp',
 		 'login',
+		 'register',
 		 'ngRoute',
 		 'auth'
 		 ])
@@ -47,7 +48,7 @@ angular.module('peerReviewApp',
 		});
 	})
 	.run(function(auth) {
-	    auth.init('/login', '/logout');
+	    auth.init('/register', '/login', '/logout');
 	})
 	.directive("compareTo", function() {
 		return {
