@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import edu.unomaha.peerreview.model.PeerReview;
 import edu.unomaha.peerreview.repository.PeerReviewRepository;
@@ -18,7 +19,7 @@ import edu.unomaha.peerreview.repository.PeerReviewDataRepository;
 import edu.unomaha.peerreview.repository.PeerReviewMetricRepository;
 
 
-@Controller
+@RestController
 //@RequestMapping(path="/api/peerreview")
 public class PeerReviewController {
 	
@@ -34,12 +35,12 @@ public class PeerReviewController {
 	@Autowired
 	private PeerReviewDataRepository peerreviewDataRepository;
 	
-	@GetMapping(path="")
-	public String index() {
-	    //return "peerreview/index";
-		//return "test";
-		return "login";
-	}
+//	@GetMapping(path="")
+//	public String index() {
+//	    //return "peerreview/index";
+//		//return "test";
+//		return "login";
+//	}
 	
 	@GetMapping(path="/peerreview/professorview")
 	public String test3() {

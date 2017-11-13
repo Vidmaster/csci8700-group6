@@ -8,6 +8,6 @@ myAppStudentView.controller('AppStudentViewCtrl', function ($scope, $window) {
 		};
 		
 		$scope.auth = function() {
-	          $window.open('http://localhost:8082/peerreview/professorview', '_self');
+	          $window.open('/peerreview/professorview', '_self');
 	    };
 });

@@ -48,7 +48,7 @@ angular.module('peerReviewApp',
 		});
 	})
 	.run(function(auth) {
-	    auth.init('/register', '/login', '/logout');
+	    auth.init('/', '/login', '/logout');
 	})
 	.directive("compareTo", function() {
 		return {
