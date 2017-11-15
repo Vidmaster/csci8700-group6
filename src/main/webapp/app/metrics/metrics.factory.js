@@ -6,7 +6,7 @@ myApp.factory("metricsFactory", function($http){
     factory.readMetrics = function(){
         return $http({
             method: 'GET',
-            url: 'http://localhost:8082/api/metric/all'
+            url: '/api/metric/all'
         });
     };
      
@@ -18,7 +18,7 @@ myApp.factory("metricsFactory", function($http){
 				'peerreviewMetricDefinition' : $scope.definition,
 				'peerreviewMetricType' : $scope.type
 			},
-			url: 'http://localhost:8082/api/metric/create'
+			url: '/api/metric/create'
 		});
 	};
 	 
@@ -40,7 +40,7 @@ myApp.factory("metricsFactory", function($http){
 				'peerreviewMetricDefinition' : $scope.definition,
 				'peerreviewMetricType' : $scope.type
 			},
-			url: 'http://localhost:8082/api/metric/update'
+			url: '/api/metric/update'
 		});
 	};
 	 
@@ -49,7 +49,7 @@ myApp.factory("metricsFactory", function($http){
 		return $http({
 			method: 'POST',
 			data: { 'id' : id },
-			url: 'http://localhost:8082/api/metric/delete'
+			url: '/api/metric/delete'
 		});
 	};
 	 
@@ -57,7 +57,7 @@ myApp.factory("metricsFactory", function($http){
 	factory.searchMetrics = function(keywords){
 		return $http({
 			method: 'GET',
-			url: 'http://localhost:8082/api/metric/search?s=' + keywords
+			url: '/api/metric/search?s=' + keywords
 		});
 	};
      

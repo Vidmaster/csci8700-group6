@@ -30,11 +30,14 @@ angular.module('auth', []).factory(
             if (response.data.name) {
               auth.authenticated = true;
               auth.user = response.data;
+              $location.path(auth.homePath);
             } else {
+            	console.log("not authenticated");
               auth.authenticated = false;
               auth.user = null;
+              $location.path(auth.loginPath);
             }
-            $location.path(auth.homePath);
+            
             callback && callback(auth.authenticated, auth.user);
           }, function() {
         	  console.log('authentication failure');

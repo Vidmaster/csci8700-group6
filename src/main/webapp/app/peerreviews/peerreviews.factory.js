@@ -6,7 +6,7 @@ myApp.factory("peerreviewsFactory", function($http){
     factory.readPeerreviews = function(){
         return $http({
             method: 'GET',
-            url: 'http://localhost:8082/api/peerreview/all'
+            url: '/api/peerreview/all'
         });
     };
     
@@ -14,7 +14,7 @@ myApp.factory("peerreviewsFactory", function($http){
     factory.readPStudents = function(){
         return $http({
             method: 'GET',
-            url: 'http://localhost:8082/api/student/all'
+            url: '/api/student/all'
         });
     };
     
@@ -22,7 +22,7 @@ myApp.factory("peerreviewsFactory", function($http){
     factory.readPMetrics = function(){
         return $http({
             method: 'GET',
-            url: 'http://localhost:8082/api/metric/all'
+            url: '/api/metric/all'
         });
     };
      
@@ -36,7 +36,7 @@ myApp.factory("peerreviewsFactory", function($http){
 				'peerreviewStudents' : $scope.selectedStudents.toString(),
 				'peerreviewMetrics' : $scope.selectedMetrics.toString()
 			},
-			url: 'http://localhost:8082/api/peerreview/create'
+			url: '/api/peerreview/create'
 		});
 	};
 	 
@@ -44,7 +44,7 @@ myApp.factory("peerreviewsFactory", function($http){
 	factory.readOnePeerreview = function(id){
 		return $http({
 			method: 'GET',
-			url: 'http://localhost:8082/api/peerreview/read_one?id=' + id
+			url: '/api/peerreview/read_one?id=' + id
 		});
 	};
 	 
@@ -60,7 +60,7 @@ myApp.factory("peerreviewsFactory", function($http){
 				'peerreviewStudents' : $scope.selectedStudents.toString(),
 				'peerreviewMetrics' : $scope.selectedMetrics.toString()
 			},
-			url: 'http://localhost:8082/api/peerreview/update'
+			url: '/api/peerreview/update'
 		});
 	};
 	 
@@ -69,7 +69,7 @@ myApp.factory("peerreviewsFactory", function($http){
 		return $http({
 			method: 'POST',
 			data: { 'id' : id },
-			url: 'http://localhost:8082/api/peerreview/delete'
+			url: '/api/peerreview/delete'
 		});
 	};
 	 
@@ -77,7 +77,7 @@ myApp.factory("peerreviewsFactory", function($http){
 	factory.searchPeerreviews = function(keywords){
 		return $http({
 			method: 'GET',
-			url: 'http://localhost:8082/api/peerreview/search?s=' + keywords
+			url: '/api/peerreview/search?s=' + keywords
 		});
 	};
 	
@@ -86,7 +86,7 @@ myApp.factory("peerreviewsFactory", function($http){
 		return $http({
 			method: 'POST',
 			data: { 'id' : id },
-			url: 'http://localhost:8082/api/peerreview/run'
+			url: '/api/peerreview/run'
 		});
 	};
 	
@@ -94,7 +94,7 @@ myApp.factory("peerreviewsFactory", function($http){
 	factory.getDataGrid = function(){
 		return $http({
 			method: 'GET',
-			url: 'http://localhost:8082/api/peerreview/result'
+			url: '/api/peerreview/result'
 		});
 	};
      

@@ -6,7 +6,7 @@ myApp.factory("studentsFactory", function($http){
     factory.readStudents = function(){
         return $http({
             method: 'GET',
-            url: 'http://localhost:8082/api/student/all'
+            url: '/api/student/all'
         });
     };
      
@@ -18,7 +18,7 @@ myApp.factory("studentsFactory", function($http){
 				'studentName' : $scope.studentName,
 				'studentEmailAddress' : $scope.emailAddress
 			},
-			url: 'http://localhost:8082/api/student/create'
+			url: '/api/student/create'
 		});
 	};
 	 
@@ -26,7 +26,7 @@ myApp.factory("studentsFactory", function($http){
 	factory.readOneStudent = function(id){
 		return $http({
 			method: 'GET',
-			url: 'http://localhost:8082/api/student/read_one?id=' + id
+			url: '/api/student/read_one?id=' + id
 		});
 	};
 	 
@@ -40,7 +40,7 @@ myApp.factory("studentsFactory", function($http){
 				'studentName' : $scope.studentName,
 				'studentEmailAddress' : $scope.emailAddress
 			},
-			url: 'http://localhost:8082/api/student/update'
+			url: '/api/student/update'
 		});
 	};
 	 
@@ -49,7 +49,7 @@ myApp.factory("studentsFactory", function($http){
 		return $http({
 			method: 'POST',
 			data: { 'id' : id },
-			url: 'http://localhost:8082/api/student/delete'
+			url: '/api/student/delete'
 		});
 	};
 	 
@@ -57,7 +57,7 @@ myApp.factory("studentsFactory", function($http){
 	factory.searchStudents = function(keywords){
 		return $http({
 			method: 'GET',
-			url: 'http://localhost:8082/api/student/search?s=' + keywords
+			url: '/api/student/search?s=' + keywords
 		});
 	};
      
