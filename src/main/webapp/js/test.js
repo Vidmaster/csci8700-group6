@@ -16,6 +16,6 @@ myApp.controller('AppCtrl', function ($scope, $window) {
 		};
 		
 		$scope.showStudentView = function() {
-	          $window.open('http://localhost:8082/peerreview/studentview', '_blank');
+	          $window.open('/peerreview/studentview', '_blank');
 	    };
     });
