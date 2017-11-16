@@ -21,9 +21,9 @@ public class PeerReviewData {
  private int id;
 
  @ManyToOne
- @JoinColumn(name="peerreview_id")
+ @JoinColumn(name="project_id")
  @JsonView
- private PeerReview peerreview;
+ private Project project;
  
  @ManyToOne
  @JoinColumn(name="reviewer_id", referencedColumnName="id")
@@ -46,8 +46,8 @@ public class PeerReviewData {
  @Override
  public String toString() {
   return "PeerrReviewData [id=" + getId()
-    + ", pid=" + peerreview.getId()
-    + ", pname=" + peerreview.getPeerreviewName()
+    + ", pid=" + project.getId()
+    + ", pname=" + project.getProjectName()
     + ", rid=" + getRid()
     + ", sid=" + getSid()
     + ", peerreviewResult=" + getPeerreviewResult()
@@ -69,19 +69,19 @@ public void setId(int id) {
 }
 
 public int getPid() {
-	return peerreview.getId();
+	return project.getId();
 }
 
-public void setPid(PeerReview pid) {
-	this.peerreview = pid;
+public void setPid(Project pid) {
+	this.project = pid;
 }
 
 public String getPname() {
-	return peerreview.getPeerreviewName();
+	return project.getProjectName();
 }
 
 public void setPname(String pname) {
-	this.peerreview.setPeerreviewName(pname);
+	this.project.setProjectName(pname);
 }
 
 public int getRid() {

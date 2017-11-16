@@ -1,12 +1,14 @@
 myApp.factory("peerreviewsFactory", function($http){
- 
+	var getAll = '/api/peerreview/all'
+	
+	
     var factory = {};
  
     // read all peerreviews
     factory.readPeerreviews = function(){
         return $http({
             method: 'GET',
-            url: '/api/peerreview/all'
+            url: getAll
         });
     };
     

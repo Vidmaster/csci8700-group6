@@ -36,22 +36,22 @@ public class PeerReviewController {
 	@Autowired
 	private PeerReviewDataRepository peerreviewDataRepository;
 	
-//	@GetMapping(path="")
-//	public String index() {
-//	    //return "peerreview/index";
-//		//return "test";
-//		return "login";
+////	@GetMapping(path="")
+////	public String index() {
+////	    //return "peerreview/index";
+////		//return "test";
+////		return "login";
+////	}
+//	
+//	@GetMapping(path="/peerreview/professorview")
+//	public String test3() {
+//	    return "test";
 //	}
-	
-	@GetMapping(path="/peerreview/professorview")
-	public String test3() {
-	    return "test";
-	}
-	
-	@GetMapping(path="/peerreview/studentview")
-	public String test2() {
-	    return "test2";
-	}
+//	
+//	@GetMapping(path="/peerreview/studentview")
+//	public String test2() {
+//	    return "test2";
+//	}
 	
 	@RequestMapping(value="/api/peerreview/all")
 	public @ResponseBody Iterable<PeerReview> getAllPeerReviews() {
@@ -65,7 +65,7 @@ public class PeerReviewController {
 	
 	@RequestMapping(value="/api/peerreview/search")
 	public @ResponseBody Iterable<PeerReview> searchPeerReviews(@RequestParam String s) {
-		return peerreviewRepository.findByPeerreviewNameContainingOrPeerreviewDescriptionContaining(s, s);
+		return null; // peerreviewRepository.findByPeerreviewNameContainingOrPeerreviewDescriptionContaining(s, s);
 	}
 	
 	@PostMapping(value="/api/peerreview/delete")
@@ -82,8 +82,8 @@ public class PeerReviewController {
 		// @RequestParam means it is a parameter from the GET or POST request
 		
 		PeerReview n = new PeerReview();
-		n.setPeerreviewName(name);
-		n.setPeerreviewDescription(description);
+//		n.setPeerreviewName(name);
+//		n.setPeerreviewDescription(description);
 		peerreviewRepository.save(n);
 		return "Peer Review Saved";
 		
@@ -109,8 +109,8 @@ public class PeerReviewController {
 		PeerReview peerreview = peerreviewRepository.findOne(pid);
 		
 		//split students and metrics
-		String[] students = peerreview.getPeerreviewStudents().split(",");
-		String[] metrics = peerreview.getPeerreviewMetrics().split(",");
+		String[] students = null; // peerreview.getPeerreviewStudents().split(",");
+		String[] metrics = null; // peerreview.getPeerreviewMetrics().split(",");
 		
 		//loop through all reviewers
 		for (String reviewer : students) {
@@ -119,7 +119,7 @@ public class PeerReviewController {
 				//loop through all metrics
 				for (String metric : metrics) {
 					PeerReviewData pData = new PeerReviewData();
-					pData.setPid(peerreviewRepository.findOne(pid));
+					//pData.setPid(peerreviewRepository.findOne(pid));
 					pData.setRid(userRepository.findOne(Integer.parseInt(reviewer)));
 					pData.setSid(userRepository.findOne(Integer.parseInt(student)));
 					pData.setMid(peerreviewMetricRepository.findOne(Integer.parseInt(metric)));

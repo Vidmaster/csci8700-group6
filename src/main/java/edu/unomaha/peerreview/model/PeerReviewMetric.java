@@ -1,6 +1,8 @@
 package edu.unomaha.peerreview.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
@@ -14,6 +16,10 @@ import javax.persistence.OneToMany;
 @Entity
 @Table(name="peerreview_metric")
 public class PeerReviewMetric {
+	public enum PeerReviewMetricType {
+		TEXT, ORDINAL, NUMERIC
+	}
+	
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
  @Column(name="peerreview_metric_id")
@@ -22,10 +28,10 @@ public class PeerReviewMetric {
  @Column(name="peerreview_metric_definition")
  private String peerreviewMetricDefinition;
  
- @Column(name="peerreview_metric_type")
- private String peerreviewMetricType;
+ @Enumerated(EnumType.STRING)
+ private PeerReviewMetricType peerreviewMetricType;
  
- @OneToMany(mappedBy = "peerreview_metric")
+ @OneToMany(mappedBy = "id")
  private List<PeerReviewData> peerreviewData;
  
  @Override
@@ -65,14 +71,14 @@ public void setPeerreviewMetricDefinition(String peerreviewMetricDefinition) {
 /**
  * @return the peerreviewMetricType
  */
-public String getPeerreviewMetricType() {
+public PeerReviewMetricType getPeerreviewMetricType() {
 	return peerreviewMetricType;
 }
 
 /**
  * @param peerreviewMetricType the peerreviewMetricType to set
  */
-public void setPeerreviewMetricType(String peerreviewMetricType) {
+public void setPeerreviewMetricType(PeerReviewMetricType peerreviewMetricType) {
 	this.peerreviewMetricType = peerreviewMetricType;
 }
 }
