@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.unomaha.peerreview.model.PeerReview;
 import edu.unomaha.peerreview.repository.PeerReviewRepository;
 import edu.unomaha.peerreview.repository.StudentRepository;
+import edu.unomaha.peerreview.repository.UserRepository;
 import edu.unomaha.peerreview.model.PeerReviewData;
 import edu.unomaha.peerreview.repository.PeerReviewDataRepository;
 import edu.unomaha.peerreview.repository.PeerReviewMetricRepository;
@@ -27,7 +28,7 @@ public class PeerReviewController {
 	private PeerReviewRepository peerreviewRepository;
 	
 	@Autowired
-	private StudentRepository studentRepository;
+	private UserRepository userRepository;
 	
 	@Autowired
 	private PeerReviewMetricRepository peerreviewMetricRepository;
@@ -119,8 +120,8 @@ public class PeerReviewController {
 				for (String metric : metrics) {
 					PeerReviewData pData = new PeerReviewData();
 					pData.setPid(peerreviewRepository.findOne(pid));
-					pData.setRid(studentRepository.findOne(Integer.parseInt(reviewer)));
-					pData.setSid(studentRepository.findOne(Integer.parseInt(student)));
+					pData.setRid(userRepository.findOne(Integer.parseInt(reviewer)));
+					pData.setSid(userRepository.findOne(Integer.parseInt(student)));
 					pData.setMid(peerreviewMetricRepository.findOne(Integer.parseInt(metric)));
 					peerreviewDataRepository.save(pData);
 				}

@@ -26,14 +26,14 @@ public class PeerReviewData {
  private PeerReview peerreview;
  
  @ManyToOne
- @JoinColumn(name="reviewer_id", referencedColumnName="student_id")
+ @JoinColumn(name="reviewer_id", referencedColumnName="id")
  @JsonView
- private Student reviewer;
+ private User reviewer;
  
  @ManyToOne
- @JoinColumn(name="student_id")
+ @JoinColumn(name="id")
  @JsonView
- private Student student;
+ private User student;
  
  @ManyToOne
  @JoinColumn(name="peerreview_metric_id")
@@ -88,32 +88,32 @@ public int getRid() {
 	return reviewer.getId();
 }
 
-public void setRid(Student rid) {
+public void setRid(User rid) {
 	this.reviewer = rid;
 }
 
 public String getRname() {
-	return reviewer.getStudentName();
+	return reviewer.getUsername();
 }
 
 public void setRname(String rname) {
-	this.reviewer.setStudentName(rname);
+	this.reviewer.setUsername(rname);
 }
 
 public int getSid() {
 	return student.getId();
 }
 
-public void setSid(Student sid) {
+public void setSid(User sid) {
 	this.student = sid;
 }
 
 public String getSname() {
-	return student.getStudentName();
+	return student.getUsername();
 }
 
 public void setSname(String sname) {
-	this.student.setStudentName(sname);
+	this.student.setUsername(sname);
 }
 
 public int getMid() {

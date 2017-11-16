@@ -17,6 +17,7 @@ import edu.unomaha.peerreview.utilities.JdbcUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+//@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	private static String[] PERMITTED_URLS = {"/", "/index.html", "/test.html", "/test2.html", "/webjars/**", 
