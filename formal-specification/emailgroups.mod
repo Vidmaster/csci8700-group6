@@ -65,6 +65,7 @@ mod EMAILREVIEWS* {
   eq enrollStudent(S1, putStudentC(S1, C)) = exDuplicateStudentEnrollment .
   eq enrollStudent(S1, putStudentC(S2, C)) = enrollStudent(S1, C) .
 
+  eq groupContains(emptyGroup, S) = false .
   eq groupContains(group(S2), S1) = false .
   eq groupContains(group(S1), S1) = true .
   eq groupContains(putStudent(S1, G), S1) = true .
@@ -75,8 +76,11 @@ mod EMAILREVIEWS* {
   eq groupSize(putStudent(S1, G)) = 1 + groupSize(G) .
 
   eq addStudent(S1, emptyGroup) = group(S1) .
+  eq addStudent(S1, group(S2)) = putStudent(S1, group(S2))
   eq addStudent(S1, group(S1)) = exDuplicateStudent .
+  eq addStudent(S1, putStudent(S1, G)) = exDuplicateStudent .
   eq addStudent(S1, putStudent(S2, G)) = putStudent(S2, addStudent(S1, G)) .
+  
   eq putStudent(S1, emptyGroup) = group(S1) .
 
   eq addGroup(G1, emptyProject) = putGroup(G1, emptyProject) .
