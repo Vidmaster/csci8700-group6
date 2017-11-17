@@ -1,5 +1,6 @@
 package edu.unomaha.peerreview.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="class")
-public class Class {
+public class Clazz {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,8 +38,50 @@ public class Class {
 	        joinColumns = { @JoinColumn(name = "studentId") }, 
 	        inverseJoinColumns = { @JoinColumn(name = "classId") }
 	    )
-	List<User> students;
+	List<User> students = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "id")
 	List<Project> projects;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public User getInstructor() {
+		return instructor;
+	}
+
+	public void setInstructor(User instructor) {
+		this.instructor = instructor;
+	}
+
+	public List<User> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<User> students) {
+		this.students = students;
+	}
+
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+	
+	
 }

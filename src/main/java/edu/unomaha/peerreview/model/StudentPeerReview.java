@@ -2,11 +2,14 @@ package edu.unomaha.peerreview.model;
 
 public class StudentPeerReview {
 	int id;
+	
 	PeerReview pr;
 	
 	User reviewer;
 	
 	User student;
+	
+	boolean submitted;
 	
 	public int getId() {
 		return id;

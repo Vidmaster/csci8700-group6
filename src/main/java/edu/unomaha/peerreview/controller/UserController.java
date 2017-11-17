@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +38,14 @@ public class UserController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@Secured(SecurityConfiguration.ProfessorRole)
+	@RequestMapping(value="/api/students", method=RequestMethod.GET)
+	public ResponseEntity<List<User>> getAllStudents() {
+		List<User> students = userRepo.findByUserRole(UserRole.STUDENT);
+		
+		return new ResponseEntity<>(students, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/api/users", method=RequestMethod.GET)
 	public ResponseEntity<List<User>> searchUsersByUsername(@RequestParam(value="username") String username) {
 		List<User> users = new ArrayList<User>();
@@ -49,7 +58,7 @@ public class UserController {
 	public ResponseEntity<User> getUser(@PathVariable("id") int id) {
 		User user = userRepo.findOne(id);
 		user.setPassword("PROTECTED");
-		
+
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	

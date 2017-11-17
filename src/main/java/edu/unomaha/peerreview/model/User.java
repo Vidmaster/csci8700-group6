@@ -109,6 +109,10 @@ public class User implements UserDetails {
 		return authorities;
 	}
 
+	public void setAuthorities(Collection<Authority> authorities) {
+		this.authorities = authorities;
+	}
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;

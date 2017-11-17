@@ -3,6 +3,7 @@ package edu.unomaha.peerreview.utilities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import edu.unomaha.peerreview.model.Authority;
 import edu.unomaha.peerreview.model.User;
 import edu.unomaha.peerreview.model.User.UserRole;
 
@@ -40,6 +42,9 @@ public class JdbcUserDetailsService implements UserDetailsService {
 		
 		User user = template.queryForObject("SELECT " + ALL_COLUMNS + " FROM users WHERE username=:username", paramMap, new UserRowMapper());
 		
+		List<Authority> authorities = template.query("SELECT username, authority FROM authorities WHERE username=:username", paramMap, new AuthorityRowMapper());
+		user.setAuthorities(authorities);
+		
 		logger.debug("Returning user: " + user);
 		return user;
 	}
@@ -52,7 +57,7 @@ public class JdbcUserDetailsService implements UserDetailsService {
 			int id = rs.getInt("id");
 			String username = rs.getString("username");
 			String email = rs.getString("email");
-			String password = rs.getString("password");
+			String password = "PROTECTED";
 			Boolean enabled = rs.getBoolean("enabled");
 			UserRole role = UserRole.valueOf(rs.getString("user_role"));
 			  
@@ -61,6 +66,18 @@ public class JdbcUserDetailsService implements UserDetailsService {
 			return user;
 		}
 
+	}
+
+	public class AuthorityRowMapper implements RowMapper<Authority> {
+
+		@Override
+		public Authority mapRow(ResultSet rs, int row) throws SQLException {
+			String username = rs.getString("username");
+			String authority = rs.getString("authority");
+			
+			return new Authority(username, authority);
+		}
+		
 	}
 	
 }

@@ -22,7 +22,7 @@ public class Project {
 
 	@ManyToOne
 	@JoinColumn(name = "classId")
-	Class clazz;
+	Clazz clazz;
 	
 	@Column
 	String projectName;
@@ -44,11 +44,11 @@ public class Project {
 		this.id = id;
 	}
 
-	public Class getClassId() {
+	public Clazz getClassId() {
 		return clazz;
 	}
 
-	public void setClassId(Class clazz) {
+	public void setClassId(Clazz clazz) {
 		this.clazz = clazz;
 	}
 
