@@ -17,13 +17,19 @@ public class PeerReview {
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 @Column(name="id")
-	int id;
+	private int id;
 	
-	@ManyToOne(targetEntity = Project.class)
-	Project project;
+	@ManyToOne(targetEntity = Clazz.class)
+	private Clazz clazz;
 	
 	@OneToMany(mappedBy = "id")
-	List<PeerReviewMetric> metrics;
+	private List<PeerReviewMetric> metrics;
+
+	@Column(name="name")
+	private String name;
+	
+	@Column(name="description")
+	private String description;
 
 	public int getId() {
 		return id;
@@ -40,5 +46,28 @@ public class PeerReview {
 	public void setMetrics(List<PeerReviewMetric> metrics) {
 		this.metrics = metrics;
 	}
+
+	public Clazz getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(Clazz clazz) {
+		this.clazz = clazz;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

@@ -29,8 +29,8 @@ public class StudentGroup {
 	int id;
 	
 	@ManyToOne
-	@JoinColumn(name="projectId")
-	Project project;
+	@JoinColumn(name="peerReviewId")
+	PeerReview peerReview;
 	
 	@Column
 	String groupName;

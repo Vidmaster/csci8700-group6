@@ -41,7 +41,7 @@ public class Clazz {
 	List<User> students = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "id")
-	List<Project> projects;
+	List<PeerReview> peerReviews;
 
 	public int getId() {
 		return id;
@@ -75,12 +75,12 @@ public class Clazz {
 		this.students = students;
 	}
 
-	public List<Project> getProjects() {
-		return projects;
+	public List<PeerReview> getPeerReviews() {
+		return peerReviews;
 	}
 
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
+	public void setPeerReviews(List<PeerReview> peerReviews) {
+		this.peerReviews = peerReviews;
 	}
 	
 	
