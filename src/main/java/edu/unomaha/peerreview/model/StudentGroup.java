@@ -1,9 +1,7 @@
 package edu.unomaha.peerreview.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,13 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-
-import edu.unomaha.peerreview.repository.PeerReviewRepository;
 
 @Entity
 @Table(name="student_group")
@@ -43,12 +39,42 @@ public class StudentGroup {
 	    )
 	List<User> members;
 	
-	public Map<User, List<StudentPeerReview>> createReviews(PeerReview pr) {
-		Map<User, List<StudentPeerReview>> m = new HashMap<>();
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public PeerReview getPeerReview() {
+		return peerReview;
+	}
+
+	public void setPeerReview(PeerReview peerReview) {
+		this.peerReview = peerReview;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public List<User> getMembers() {
+		return members;
+	}
+
+	public void setMembers(List<User> members) {
+		this.members = members;
+	}
+
+	public List<StudentPeerReview> createReviews(PeerReview pr) {
+		List<StudentPeerReview> reviews = new ArrayList<>();
 		
 		for (User student : members) {
-			List<StudentPeerReview> reviews = new ArrayList<>();
-			
 			for (User groupMember : members) {
 				if (student == groupMember) {
 					continue;
@@ -60,11 +86,9 @@ public class StudentGroup {
 				
 				reviews.add(p);
 			}
-			
-			m.put(student, reviews);
 		}
 
-		return m;
+		return reviews;
 	}
 	
 }

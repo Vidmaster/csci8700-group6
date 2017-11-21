@@ -25,6 +25,9 @@ public class PeerReview {
 	@OneToMany(mappedBy = "id")
 	private List<PeerReviewMetric> metrics;
 
+	@OneToMany(mappedBy="id")
+	private List<StudentGroup> groups;
+	
 	@Column(name="name")
 	private String name;
 	
@@ -70,4 +73,14 @@ public class PeerReview {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public List<StudentGroup> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<StudentGroup> groups) {
+		this.groups = groups;
+	}
+	
+	
 }

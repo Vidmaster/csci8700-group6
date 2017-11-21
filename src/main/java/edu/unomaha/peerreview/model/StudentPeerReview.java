@@ -1,6 +1,17 @@
 package edu.unomaha.peerreview.model;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class StudentPeerReview {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column
 	int id;
 	
 	PeerReview pr;
@@ -9,7 +20,11 @@ public class StudentPeerReview {
 	
 	User student;
 	
+	@Column
 	boolean submitted;
+	
+	
+	List<PeerReviewData> responses;
 	
 	public int getId() {
 		return id;
@@ -42,7 +57,13 @@ public class StudentPeerReview {
 	public void setStudent(User student) {
 		this.student = student;
 	}
-	
-	
+
+	public boolean isSubmitted() {
+		return submitted;
+	}
+
+	public void setSubmitted(boolean submitted) {
+		this.submitted = submitted;
+	}
 	
 }
