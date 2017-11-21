@@ -1,91 +1,58 @@
-<div layout="column" layout-fill>
-	<header>
-	  <md-toolbar md-scroll-shrink>
-		<div class = "md-toolbar-tools">
-		  <h1><b>Peer Review App.</b></h1>
-		</div>	
-	  </md-toolbar>
-	</header>
-
-	<main flex>
-			
-			<div ng-controller="RegistrationController">
-			
-			<md-content layout="row" layout-align="space-around" layout-padding="layout-padding" ng-cloak="ng-cloak" class="login-form">
-			      <md-card flex="flex" flex-gt-sm="50" flex-gt-md="33">
-			        <md-toolbar>
-			          <div class="md-toolbar-tools">
-			            <h2><span>Register a new user</span></h2>
-			          </div>
-			        </md-toolbar>
-			        <md-card-content>
-			          
-			
-				             <form name="registerUser" ng-submit="register(registerUser.$valid)" novalidate>
-				                 <md-input-container class="md-block" ng-class="{ 'has-error' : formData.username.$invalid && !formData.username.$pristine}">
-				                     <div class="controls">
-				                         <label>Username</label>
-				                         <input type="text" class="form-control" id="username" required autofocus ng-model="formData.username" ng-minlength=3 ng-maxlength=60>
-				                         <p ng-show="registerUser.username.$error.minlength" class="help-block">Username is too short.</p>
-			  							 <p ng-show="registerUser.username.$error.maxlength" class="help-block">Username is too long.</p>
-				                     </div>
-				                 </md-input-container>
-				                 <md-input-container class="md-block">
-				                     <div class="controls">
-				                         <label>Password</label>
-				                         <input type="password" class="form-control" id="password" required ng-model="formData.password" ng-minlength=6>
-				                         <p ng-show="registerUser.password.$error.minlength" class="help-block">Password is too short.</p>
-				                         <p ng-show="!registerUser.password.$pristine && !registerUser.confirmPassword.$pristine && (registerUser.password != registerUser.confirmPassword)">Passwords do not match</p>
-				                     </div>
-				                 </md-input-container>
-				                 <md-input-container class="md-block">
-				                     <div class="controls">
-				                         <label>Confirm Password</label>
-				                         <input type="password" class="form-control" id="confirmPassword" required ng-model="formData.confirmPassword" compare-to="formData.password">
-				                         <span class="help-block" ng-show="errorPass">{{ errorPass }}</span>
-				                     </div>
-				                 </md-input-container>
-				                 <md-input-container class="md-block">
-				                     <div class="controls">
-				                         <label>Email Address</label>
-				                         <input type="email" class="form-control" id="email" required ng-model="formData.email">
-				                          <p ng-show="registerUser.email.$invalid && !registerUser.email.$pristine" class="help-block">Enter a valid email.</p>
-				                     </div>
-				                 </md-input-container>
-				                 <md-input-container class="md-block">
-				                     <div class="controls">
-				                     
-				                         <md-select placeholder="I am a" id="userRole" class="form-control" required ng-model="formData.role">
-				                         	<md-option value="S">Student</md-option>
-				                         	<md-option value="P">Professor</md-option>
-				                         </md-select>
-				                     </div>
-				                 </md-input-container>
-				                 <div id="success"></div>
-				                 <!-- For success/fail messages -->
-				                 <md-button type="submit" class="md-raised md-primary" ng-disabled="registerUser.$invalid">Register</md-button>
-				                 <a href="index.html" class="btn btn-link">&nbsp; &nbsp; &nbsp; Cancel</a>
-				             </form>
-	           
-	      					 <div id="messages" ng-show="message">{{ message }}</div>
-			          
-			        </md-card-content>
-			      </md-card>
-			    </md-content>
-			    <!-- Angular Material Dependencies-->
-			  
-			</div>			
-		
-	</main>
-	 
-	<!-- https://stackoverflow.com/questions/38164716/angular-material-toolbar-height-issue --> 
-	<footer>
-	  <md-toolbar class="site-footer" md-scroll-shrink>
-		<!-- https://material.angularjs.org/latest/layout/alignment -->
-		<div class = "md-toolbar-tools" layout="row" layout-align="end center">
-		  &#169; RE Squad
-		</div>
-	  </md-toolbar>
-	</footer>
-   
+<div class="content-section-b">
+	<div class="container">
+		<!-- Registration Form -->
+		<div class="row">
+			<div class="col-md-8" ng-controller="RegistrationController">
+				<h3>Register a new user</h3>
+				<div id="messages" ng-show="message">{{ message }}</div>
+	             <form name="registerUser" ng-submit="register(registerUser.$valid)" novalidate>
+	                 <div class="control-group form-group" ng-class="{ 'has-error' : formData.username.$invalid && !formData.username.$pristine}">
+	                     <div class="controls">
+	                         <label>Username:</label>
+	                         <input type="text" class="form-control" id="username" placeholder="Username" required autofocus ng-model="formData.username" ng-minlength=3 ng-maxlength=60>
+	                         <p ng-show="registerUser.username.$error.minlength" class="help-block">Username is too short.</p>
+  							 <p ng-show="registerUser.username.$error.maxlength" class="help-block">Username is too long.</p>
+	                     </div>
+	                 </div>
+	                 <div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>Password:</label>
+	                         <input type="password" class="form-control" id="password" required ng-model="formData.password" ng-minlength=6>
+	                         <p ng-show="registerUser.password.$error.minlength" class="help-block">Password is too short.</p>
+	                         <p ng-show="!registerUser.password.$pristine && !registerUser.confirmPassword.$pristine && (registerUser.password != registerUser.confirmPassword)">Passwords do not match</p>
+	                     </div>
+	                 </div>
+	                 <div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>Confirm Password:</label>
+	                         <input type="password" class="form-control" id="confirmPassword" required ng-model="formData.confirmPassword" compare-to="formData.password">
+	                         <span class="help-block" ng-show="errorPass">{{ errorPass }}</span>
+	                     </div>
+	                 </div>
+	                 
+	                 <div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>Email Address:</label>
+	                         <input type="email" class="form-control" placeholder="you@domain.com" id="email" required ng-model="formData.email">
+	                          <p ng-show="registerUser.email.$invalid && !registerUser.email.$pristine" class="help-block">Enter a valid email.</p>
+	                     </div>
+	                 </div>
+	                 <div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>I am a:</label>
+	                         <select id="userRole" class="form-control" required ng-model="formData.role">
+	                         	<option value="S">Student</option>
+	                         	<option value="P">Professor</option>
+	                         </select>
+	                     </div>
+	                 </div>
+	                 <div id="success"></div>
+	                 <!-- For success/fail messages -->
+	                 <button type="submit" class="btn btn-primary" ng-disabled="registerUser.$invalid">Register</button>
+	                 <a href="index.html" class="btn btn-link">Cancel</a>
+	             </form>
+	         </div>
+	     </div>
+	     <!-- /.row -->
+	</div>
 </div>
