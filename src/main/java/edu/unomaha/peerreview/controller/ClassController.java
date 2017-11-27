@@ -29,7 +29,7 @@ public class ClassController {
 	AuthUtilities auth;
 	
 	@Secured(SecurityConfiguration.ProfessorRole)
-	@RequestMapping(value="/class", method=RequestMethod.POST)
+	@RequestMapping(value="/api/class", method=RequestMethod.POST)
 	public ResponseEntity<ServiceResponse> createClass(@RequestBody Clazz clazz) {
 		classRepository.save(clazz);
 	
@@ -37,7 +37,7 @@ public class ClassController {
 	}
 
 	@Secured(SecurityConfiguration.ProfessorRole)
-	@RequestMapping(value="/class/{id}/students", method=RequestMethod.GET)
+	@RequestMapping(value="/api/class/{id}/students", method=RequestMethod.GET)
 	public ResponseEntity<List<User>> getClassStudents(@PathVariable int id) {
 		List<User> users = classRepository.findOne(id).getStudents();
 		users.forEach(u -> u.setPassword("PROTECTED"));
@@ -46,7 +46,7 @@ public class ClassController {
 	}
 	
 	@Secured(SecurityConfiguration.ProfessorRole)
-	@RequestMapping(value="/class/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/api/class/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Clazz> getClazz(@PathVariable int id) {
 		Clazz c = classRepository.findOne(id);
 		
@@ -54,7 +54,7 @@ public class ClassController {
 	}
 	
 	@Secured(SecurityConfiguration.ProfessorRole)
-	@RequestMapping(value="/class/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/api/class/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<ServiceResponse> updateClass(@PathVariable int id, @RequestBody Clazz c) {
 		Clazz oldClass = classRepository.findOne(id);
 		
@@ -68,7 +68,7 @@ public class ClassController {
 	}
 	
 	@Secured(SecurityConfiguration.ProfessorRole)
-	@RequestMapping(value="/class/{id}/addStudent", method=RequestMethod.POST)
+	@RequestMapping(value="/api/class/{id}/addStudent", method=RequestMethod.POST)
 	public ResponseEntity<ServiceResponse> addStudent(@PathVariable int id, @RequestBody User student) {
 		Clazz c = classRepository.findOne(id);
 		c.getStudents().add(student);
