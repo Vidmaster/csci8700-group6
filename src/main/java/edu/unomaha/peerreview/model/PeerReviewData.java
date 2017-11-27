@@ -15,129 +15,91 @@ import javax.persistence.ManyToOne;
 @Entity
 @Table(name="peerreview_data")
 public class PeerReviewData {
- @Id
- @GeneratedValue(strategy = GenerationType.AUTO)
- @Column(name="peerreview_data_id")
- private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="peerreview_data_id")
+	private int id;
+	
+	@ManyToOne
+	@JoinColumn(name="peer_review_id")
+	@JsonView
+	private StudentPeerReview studentPeerReview;
+	 
+	@ManyToOne
+	@JoinColumn(name="peerreview_metric_id")
+	@JsonView
+	private PeerReviewMetric peerreview_metric;
+	 
+	@Column(name="peerreview_result")
+	private String peerreviewResult;
+	
+	@Override
+	public String toString() {
+		return "PeerrReviewData [id=" + getId()
+			+ ", pid=" + studentPeerReview.getId()
+			+ ", pname=" + studentPeerReview.getPr().getDescription()
+			+ ", rid=" + studentPeerReview.getReviewer().getId()
+			+ ", sid=" + studentPeerReview.getStudent().getId()
+			+ ", peerreviewResult=" + getPeerreviewResult()
+			+ "]";
+	 }
+	 
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int getMid() {
+		return peerreview_metric.getId();
+	}
+	
+	public void setMid(PeerReviewMetric mid) {
+		this.peerreview_metric = mid;
+	}
+	
+	public String getMname() {
+		return peerreview_metric.getPeerreviewMetricDefinition();
+	}
+	
+	public void setMname(String mname) {
+		this.peerreview_metric.setPeerreviewMetricDefinition(mname);
+	}
+	
+	public String getPeerreviewResult() {
+		return peerreviewResult;
+	}
+	
+	public void setPeerreviewResult(String peerreviewResult) {
+		this.peerreviewResult = peerreviewResult;
+	}
 
- @ManyToOne
- @JoinColumn(name="peer_review_id")
- @JsonView
- private PeerReview peerReview;
- 
- @ManyToOne
- @JoinColumn(name="reviewer_id", referencedColumnName="id")
- @JsonView
- private User reviewer;
- 
- @ManyToOne
- @JoinColumn(name="id")
- @JsonView
- private User student;
- 
- @ManyToOne
- @JoinColumn(name="peerreview_metric_id")
- @JsonView
- private PeerReviewMetric peerreview_metric;
- 
- @Column(name="peerreview_result")
- private String peerreviewResult;
- 
- @Override
- public String toString() {
-  return "PeerrReviewData [id=" + getId()
-    + ", pid=" + peerReview.getId()
-    + ", pname=" + peerReview.getDescription()
-    + ", rid=" + getRid()
-    + ", sid=" + getSid()
-    + ", peerreviewResult=" + getPeerreviewResult()
-    + "]";
- }
- 
-/**
- * @return the id
- */
-public int getId() {
-	return id;
-}
+	public StudentPeerReview getStudentPeerReview() {
+		return studentPeerReview;
+	}
 
-/**
- * @param id the id to set
- */
-public void setId(int id) {
-	this.id = id;
-}
+	public void setStudentPeerReview(StudentPeerReview studentPeerReview) {
+		this.studentPeerReview = studentPeerReview;
+	}
 
-public int getPid() {
-	return peerReview.getId();
-}
+	public int getStudentPeerReviewId() {
+		return studentPeerReview.getId();
+	}
+	
+	public PeerReviewMetric getPeerreview_metric() {
+		return peerreview_metric;
+	}
 
-public void setPid(PeerReview pid) {
-	this.peerReview = pid;
-}
-
-public String getPname() {
-	return peerReview.getName();
-}
-
-public void setPname(String pname) {
-	this.peerReview.setName(pname);
-}
-
-public int getRid() {
-	return reviewer.getId();
-}
-
-public void setRid(User rid) {
-	this.reviewer = rid;
-}
-
-public String getRname() {
-	return reviewer.getUsername();
-}
-
-public void setRname(String rname) {
-	this.reviewer.setUsername(rname);
-}
-
-public int getSid() {
-	return student.getId();
-}
-
-public void setSid(User sid) {
-	this.student = sid;
-}
-
-public String getSname() {
-	return student.getUsername();
-}
-
-public void setSname(String sname) {
-	this.student.setUsername(sname);
-}
-
-public int getMid() {
-	return peerreview_metric.getId();
-}
-
-public void setMid(PeerReviewMetric mid) {
-	this.peerreview_metric = mid;
-}
-
-public String getMname() {
-	return peerreview_metric.getPeerreviewMetricDefinition();
-}
-
-public void setMname(String mname) {
-	this.peerreview_metric.setPeerreviewMetricDefinition(mname);
-}
-
-public String getPeerreviewResult() {
-	return peerreviewResult;
-}
-
-public void setPeerreviewResult(String peerreviewResult) {
-	this.peerreviewResult = peerreviewResult;
-}
+	public void setPeerreview_metric(PeerReviewMetric peerreview_metric) {
+		this.peerreview_metric = peerreview_metric;
+	}
 
 }

@@ -17,4 +17,9 @@ public class ServiceResponse {
 		this.message = message;
 	}
 
+	public ServiceResponse() {
+		this.success = true;
+		this.message = "OK";
+	}
+	
 }

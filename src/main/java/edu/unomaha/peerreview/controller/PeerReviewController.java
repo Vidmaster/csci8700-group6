@@ -7,6 +7,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,22 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.unomaha.peerreview.config.SecurityConfiguration;
 import edu.unomaha.peerreview.model.Clazz;
 import edu.unomaha.peerreview.model.PeerReview;
-import edu.unomaha.peerreview.model.PeerReviewData;
 import edu.unomaha.peerreview.model.ServiceResponse;
 import edu.unomaha.peerreview.model.StudentGroup;
 import edu.unomaha.peerreview.model.StudentPeerReview;
 import edu.unomaha.peerreview.model.User;
 import edu.unomaha.peerreview.repository.PeerReviewDataRepository;
-import edu.unomaha.peerreview.repository.PeerReviewMetricRepository;
 import edu.unomaha.peerreview.repository.PeerReviewRepository;
 import edu.unomaha.peerreview.repository.StudentPeerReviewRepository;
-import edu.unomaha.peerreview.repository.UserRepository;
+import edu.unomaha.peerreview.utilities.AuthUtilities;
 
 
 @RestController
-//@RequestMapping(path="/api/peerreview")
 public class PeerReviewController {
 	
 	@Autowired
@@ -42,98 +42,120 @@ public class PeerReviewController {
 	private StudentPeerReviewRepository sprRepository;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private PeerReviewDataRepository prDataRepository;
 	
 	@Autowired
-	private PeerReviewMetricRepository peerreviewMetricRepository;
+	private AuthUtilities auth;
 	
-	@Autowired
-	private PeerReviewDataRepository peerreviewDataRepository;
-	
-////	@GetMapping(path="")
-////	public String index() {
-////	    //return "peerreview/index";
-////		//return "test";
-////		return "login";
-////	}
-//	
-//	@GetMapping(path="/peerreview/professorview")
-//	public String test3() {
-//	    return "test";
-//	}
-//	
-//	@GetMapping(path="/peerreview/studentview")
-//	public String test2() {
-//	    return "test2";
-//	}
-	
-	@RequestMapping(value="/api/peerreview/all")
-	public @ResponseBody Iterable<PeerReview> getAllPeerReviews() {
-		return peerreviewRepository.findAll();
-	}
-	
-	@GetMapping(value="/api/peerreview/read_one")
+	@GetMapping(value="/api/peerreview/{id}")
 	public @ResponseBody PeerReview readOnePeerReview(@RequestParam int id) {
 		return peerreviewRepository.findOne(id);
 	}
 	
-	@RequestMapping(value="/api/peerreview/search")
-	public @ResponseBody Iterable<PeerReview> searchPeerReviews(@RequestParam String s) {
-		return null; // peerreviewRepository.findByPeerreviewNameContainingOrPeerreviewDescriptionContaining(s, s);
+	@RequestMapping(value="/api/peerreview")
+	public @ResponseBody Iterable<PeerReview> searchPeerReviews(@RequestParam(defaultValue="") String s) {
+		if (s.isEmpty()) {
+			return peerreviewRepository.findAll();
+		} else {
+			return peerreviewRepository.findByNameContainingOrDescriptionContaining(s, s);
+		}
 	}
 	
-	@PostMapping(value="/api/peerreview/delete")
-	public @ResponseBody String deletePeerReview(@RequestBody PeerReview n) {
-		peerreviewRepository.delete(n.getId());
-		return "{\"message\" : \"peer review was deleted.\"}";
+	@DeleteMapping(value="/api/peerreview/{id}")
+	@Secured(SecurityConfiguration.ProfessorRole)
+	public ResponseEntity<ServiceResponse> deletePeerReview(@PathVariable int id) {
+		PeerReview pr = peerreviewRepository.findOne(id);
+		if (pr == null) {
+			return new ResponseEntity<>(new ServiceResponse("Peer review " + id + " does not exist", false), HttpStatus.NOT_FOUND);
+		} else if (auth.isAuthorized(pr.getClazz().getInstructor().getId())) {
+			peerreviewRepository.delete(id);
+			return new ResponseEntity<>(new ServiceResponse("Peer review " + id + " was deleted.", true), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(new ServiceResponse("Not Authorized", false), HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
 	
-	@RequestMapping(value = "/api/peerreview/add")
-	public @ResponseBody String addNewPeerReview (@RequestParam String name
-			, @RequestParam String description) {
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
+	@PostMapping(value = "/api/peerreview")
+	@Secured(SecurityConfiguration.ProfessorRole)
+	public ResponseEntity<ServiceResponse> addNewPeerReview (@RequestBody PeerReview pr) {
+		peerreviewRepository.save(pr);
+		return new ResponseEntity<>(new ServiceResponse(), HttpStatus.OK);
 		
-		PeerReview n = new PeerReview();
-//		n.setPeerreviewName(name);
-//		n.setPeerreviewDescription(description);
-		peerreviewRepository.save(n);
-		return "Peer Review Saved";
-		
 	}
 	
-	@RequestMapping(value = "/api/peerreview/create" , method = RequestMethod.POST)
-	public @ResponseBody String createNewPeerReview (@RequestBody PeerReview n) {
-		peerreviewRepository.save(n);
-		return "{\"message\" : \"peer review was created.\"}";
+	@RequestMapping(value = "/api/peerreview/{id}" , method = RequestMethod.PUT)
+	public ResponseEntity<ServiceResponse> updatePeerReview (@RequestBody PeerReview n) {
+		PeerReview pr = peerreviewRepository.findOne(n.getId());
+		if (pr == null) {
+			return new ResponseEntity<>(new ServiceResponse("Peer review " + n.getId() + " does not exist", false), HttpStatus.NOT_FOUND);
+		} else if (auth.isAuthorized(pr.getClazz().getInstructor().getId())) {
+			peerreviewRepository.save(n);
+			return new ResponseEntity<>(new ServiceResponse(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(new ServiceResponse("Not Authorized", false), HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
-	@RequestMapping(value = "/api/peerreview/update" , method = RequestMethod.POST)
-	public @ResponseBody String updatePeerReview (@RequestBody PeerReview n) {
-		peerreviewRepository.save(n);
-		return "{\"message\" : \"peer review was updated.\"}";
+	@PostMapping(value="/api/peerreview/{id}/run")
+	@Secured(SecurityConfiguration.ProfessorRole)
+	public ResponseEntity<ServiceResponse> runPeerReview(@PathVariable int id) {
+		PeerReview pr = peerreviewRepository.findOne(id);
+		if (pr == null) {
+			return new ResponseEntity<>(new ServiceResponse("Peer review " + id + " does not exist", false), HttpStatus.NOT_FOUND);
+		} else if (auth.isAuthorized(pr.getClazz().getInstructor().getId())) {
+			return sendPeerReviewsToStudents(id);
+		} else {
+			return new ResponseEntity<>(new ServiceResponse("Not Authorized", false), HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
-	@PostMapping(value="/api/peerreview/run")
-	public @ResponseBody String runPeerReview(@RequestBody PeerReview n) {
+	@RequestMapping(value="/api/peerreview/{id}/results")
+	@Secured(SecurityConfiguration.ProfessorRole)
+	public ResponseEntity<List<StudentPeerReview>> getAllPeerReviewResults(@PathVariable int id) {
+		List<StudentPeerReview> data = sprRepository.findByPeerReviewId(id);
 		
-		int pid = n.getId();
-		
-		sendPeerReviewsToStudents(pid);
-		
-		return "{\"message\" : \"peer review was launched.\"}";
+		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/api/peerreview/result")
-	public @ResponseBody Iterable<PeerReviewData> getAllPeerReviewResults() {
-		Iterable<PeerReviewData> datas = peerreviewDataRepository.findAll();
+	@RequestMapping(value="/api/peerreview/{id}/student")
+	@Secured(SecurityConfiguration.StudentRole)
+	public ResponseEntity<List<StudentPeerReview>> getStudentPeerReviews(@PathVariable int pid) {
+		int userId = auth.getActiveUser();
+		List<StudentPeerReview> data = sprRepository.findByReviewerIdAndPeerReviewId(userId, pid);
 		
-		return datas;
+		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/api/peerreview/{id}/sendReviews")
-	public ResponseEntity<ServiceResponse> sendPeerReviewsToStudents(@PathVariable("id") int id) {
+	@RequestMapping(value="/api/peerreview/student")
+	@Secured(SecurityConfiguration.StudentRole)
+	public ResponseEntity<List<StudentPeerReview>> getMyPeerReviews() {
+		int userId = auth.getActiveUser();
+		List<StudentPeerReview> data = sprRepository.findByReviewerId(userId);
+		
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/api/peerreview/{pid}/resetstudentreview")
+	@Secured(SecurityConfiguration.ProfessorRole)
+	public ResponseEntity<ServiceResponse> resetPeerReview(@PathVariable int pid, @RequestParam int id) {
+		PeerReview pr = peerreviewRepository.findOne(pid);
+		if (pr == null) {
+			return new ResponseEntity<>(new ServiceResponse("Peer review " + pid + " does not exist", false), HttpStatus.NOT_FOUND);
+		} else if (auth.isAuthorized(pr.getClazz().getInstructor().getId())) {
+			StudentPeerReview spr = sprRepository.findOne(id);
+			spr.setSubmitted(false);
+			sprRepository.save(spr);
+			// Delete any data created by the student for this review
+			prDataRepository.deleteByStudentPeerReviewId(spr.getId());
+			
+			return new ResponseEntity<>(new ServiceResponse(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(new ServiceResponse("Not Authorized", false), HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	public ResponseEntity<ServiceResponse> sendPeerReviewsToStudents(int id) {
 		PeerReview pr = peerreviewRepository.findOne(id);
 		Clazz c = pr.getClazz();
 		List<User> students = c.getStudents();

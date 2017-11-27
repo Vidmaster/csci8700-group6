@@ -18,22 +18,22 @@ public class StudentPeerReview {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
-	int id;
+	private int id;
 	
 	@ManyToOne(targetEntity = PeerReview.class)
-	PeerReview pr;
+	private PeerReview pr;
 	
 	@ManyToOne(targetEntity = User.class)
-	User reviewer;
+	private User reviewer;
 	
 	@ManyToOne(targetEntity = User.class)
-	User student;
+	private User student;
 	
 	@Column
-	boolean submitted;
+	private boolean submitted;
 	
 	@OneToMany(mappedBy="id")
-	List<PeerReviewData> responses;
+	private List<PeerReviewData> responses;
 	
 	public int getId() {
 		return id;
@@ -51,12 +51,20 @@ public class StudentPeerReview {
 		this.pr = pr;
 	}
 	
+	public int getPeerReviewId() {
+		return pr.getId();
+	}
+	
 	public User getReviewer() {
 		return reviewer;
 	}
 	
 	public void setReviewer(User reviewer) {
 		this.reviewer = reviewer;
+	}
+	
+	public int getReviewerId() {
+		return reviewer.getId();
 	}
 	
 	public User getStudent() {

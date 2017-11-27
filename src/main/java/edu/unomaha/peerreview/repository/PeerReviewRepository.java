@@ -6,6 +6,6 @@ import edu.unomaha.peerreview.model.PeerReview;
 
 public interface PeerReviewRepository extends CrudRepository<PeerReview, Integer> {
 
-	//Iterable<PeerReview> findByPeerreviewNameContainingOrPeerreviewDescriptionContaining(String s, String s2);
+	Iterable<PeerReview> findByNameContainingOrDescriptionContaining(String s, String s2);
 
 }
