@@ -1,4 +1,4 @@
-<div><h1>Peer Review Application</h1>
+<h1>Peer Review Application</h1>
 
 <p>
 <a href="#!/login">Login</a>
@@ -8,6 +8,10 @@
 <a href="" ng-click="$parent.logout()" target="_self">Logout</a>
 </p>
 
-<p>{{$parent.user.principal.userRole}}</p>
+<div ng-controller="index">
+<div ng-if="student"><ng-include src="'/test2.html'"></ng-include></div>
 
+<div ng-if="!student"><ng-include src="'/test.html'"></ng-include></div>
+
+<p>Logged in user role is: {{$parent.$parent.user.principal.userRole}}</p>
 </div>
