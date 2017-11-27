@@ -82,7 +82,7 @@ public class StudentGroup {
 				StudentPeerReview p = new StudentPeerReview();
 				p.setReviewer(student);
 				p.setStudent(groupMember);
-				p.setPr(pr);
+				p.setPeerReview(pr);
 				
 				reviews.add(p);
 			}

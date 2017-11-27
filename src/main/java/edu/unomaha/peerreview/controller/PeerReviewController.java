@@ -29,6 +29,7 @@ import edu.unomaha.peerreview.model.User;
 import edu.unomaha.peerreview.repository.PeerReviewDataRepository;
 import edu.unomaha.peerreview.repository.PeerReviewRepository;
 import edu.unomaha.peerreview.repository.StudentPeerReviewRepository;
+import edu.unomaha.peerreview.repository.UserRepository;
 import edu.unomaha.peerreview.utilities.AuthUtilities;
 
 
@@ -43,6 +44,9 @@ public class PeerReviewController {
 	
 	@Autowired
 	private PeerReviewDataRepository prDataRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private AuthUtilities auth;
@@ -113,7 +117,8 @@ public class PeerReviewController {
 	@RequestMapping(value="/api/peerreview/{id}/results")
 	@Secured(SecurityConfiguration.ProfessorRole)
 	public ResponseEntity<List<StudentPeerReview>> getAllPeerReviewResults(@PathVariable int id) {
-		List<StudentPeerReview> data = sprRepository.findByPeerReviewId(id);
+		PeerReview pr = peerreviewRepository.findOne(id);
+		List<StudentPeerReview> data = sprRepository.findByPeerReview(pr);
 		
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
@@ -122,7 +127,9 @@ public class PeerReviewController {
 	@Secured(SecurityConfiguration.StudentRole)
 	public ResponseEntity<List<StudentPeerReview>> getStudentPeerReviews(@PathVariable int pid) {
 		int userId = auth.getActiveUser();
-		List<StudentPeerReview> data = sprRepository.findByReviewerIdAndPeerReviewId(userId, pid);
+		User u = userRepository.findOne(userId);
+		PeerReview pr = peerreviewRepository.findOne(pid);
+		List<StudentPeerReview> data = sprRepository.findByReviewerAndPeerReview(u, pr);
 		
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
@@ -131,9 +138,29 @@ public class PeerReviewController {
 	@Secured(SecurityConfiguration.StudentRole)
 	public ResponseEntity<List<StudentPeerReview>> getMyPeerReviews() {
 		int userId = auth.getActiveUser();
-		List<StudentPeerReview> data = sprRepository.findByReviewerId(userId);
+		User u = userRepository.findOne(userId);
+		List<StudentPeerReview> data = sprRepository.findByReviewer(u);
 		
 		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/api/peerreview/student/{id}")
+	@Secured(SecurityConfiguration.StudentRole)
+	public ResponseEntity<ServiceResponse> submitStudentPeerReview(@PathVariable int id) {
+		StudentPeerReview spr = sprRepository.findOne(id);
+		
+		if (spr == null) {
+			return new ResponseEntity<>(new ServiceResponse("Student peer review " + id + " does not exist", false), HttpStatus.NOT_FOUND);
+		} else if (auth.isAuthorized(spr.getReviewerId())) {
+			spr.setSubmitted(true);
+			prDataRepository.save(spr.getResponses());
+			sprRepository.save(spr);
+			
+			return new ResponseEntity<>(new ServiceResponse(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(new ServiceResponse("Not Authorized", false), HttpStatus.UNAUTHORIZED);
+		}
+		
 	}
 	
 	@RequestMapping(value="/api/peerreview/{pid}/resetstudentreview")
@@ -147,7 +174,7 @@ public class PeerReviewController {
 			spr.setSubmitted(false);
 			sprRepository.save(spr);
 			// Delete any data created by the student for this review
-			prDataRepository.deleteByStudentPeerReviewId(spr.getId());
+			prDataRepository.deleteByStudentPeerReview(spr);
 			
 			return new ResponseEntity<>(new ServiceResponse(), HttpStatus.OK);
 		} else {

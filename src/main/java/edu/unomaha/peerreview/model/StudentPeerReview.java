@@ -21,7 +21,7 @@ public class StudentPeerReview {
 	private int id;
 	
 	@ManyToOne(targetEntity = PeerReview.class)
-	private PeerReview pr;
+	private PeerReview peerReview;
 	
 	@ManyToOne(targetEntity = User.class)
 	private User reviewer;
@@ -35,6 +35,14 @@ public class StudentPeerReview {
 	@OneToMany(mappedBy="id")
 	private List<PeerReviewData> responses;
 	
+	public List<PeerReviewData> getResponses() {
+		return responses;
+	}
+
+	public void setResponses(List<PeerReviewData> responses) {
+		this.responses = responses;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -43,16 +51,16 @@ public class StudentPeerReview {
 		this.id = id;
 	}
 	
-	public PeerReview getPr() {
-		return pr;
+	public PeerReview getPeerReview() {
+		return peerReview;
 	}
 	
-	public void setPr(PeerReview pr) {
-		this.pr = pr;
+	public void setPeerReview(PeerReview pr) {
+		this.peerReview = pr;
 	}
 	
 	public int getPeerReviewId() {
-		return pr.getId();
+		return peerReview.getId();
 	}
 	
 	public User getReviewer() {

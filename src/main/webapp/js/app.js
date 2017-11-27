@@ -34,9 +34,10 @@ angular.module('peerReviewApp',
 		if (auth && auth.user) $scope.user = auth.user;
 		
 		$scope.logout = function() {
+			console.log('logout called');
 			auth.clear();
 			$scope.user = null;
-			$scope.authenticated = auth.authenticated;
+			$scope.authenticated = false;
 			$window.location.href="/";
 		};
 		

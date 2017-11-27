@@ -27,7 +27,7 @@ angular.module('register', [])
 		    
 		    $scope.success=data.data.success;
 		    
-		    if (!data.success) {
+		    if (!data.data.success) {
 		      // if not successful, bind errors to error variables
 		      $scope.message = data.data.message;
 		    } else {

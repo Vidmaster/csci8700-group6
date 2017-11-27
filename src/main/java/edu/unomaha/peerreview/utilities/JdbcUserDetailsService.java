@@ -57,7 +57,7 @@ public class JdbcUserDetailsService implements UserDetailsService {
 			int id = rs.getInt("id");
 			String username = rs.getString("username");
 			String email = rs.getString("email");
-			String password = "PROTECTED";
+			String password = rs.getString("password");
 			Boolean enabled = rs.getBoolean("enabled");
 			UserRole role = UserRole.valueOf(rs.getString("user_role"));
 			  

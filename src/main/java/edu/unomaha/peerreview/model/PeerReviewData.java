@@ -37,7 +37,7 @@ public class PeerReviewData {
 	public String toString() {
 		return "PeerrReviewData [id=" + getId()
 			+ ", pid=" + studentPeerReview.getId()
-			+ ", pname=" + studentPeerReview.getPr().getDescription()
+			+ ", pname=" + studentPeerReview.getPeerReview().getDescription()
 			+ ", rid=" + studentPeerReview.getReviewer().getId()
 			+ ", sid=" + studentPeerReview.getStudent().getId()
 			+ ", peerreviewResult=" + getPeerreviewResult()

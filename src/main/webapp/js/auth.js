@@ -39,8 +39,9 @@ angular.module('auth', []).factory(
             }
             
             callback && callback(auth.authenticated, auth.user);
-          }, function() {
+          }, function(r) {
         	  console.log('authentication failure');
+        	  console.log(r);
             auth.authenticated = false;
             callback && callback(false);
           });
