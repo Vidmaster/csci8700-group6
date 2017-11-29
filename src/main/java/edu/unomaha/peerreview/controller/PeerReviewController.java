@@ -52,7 +52,7 @@ public class PeerReviewController {
 	private AuthUtilities auth;
 	
 	@GetMapping(value="/api/peerreview/{id}")
-	public @ResponseBody PeerReview readOnePeerReview(@RequestParam int id) {
+	public @ResponseBody PeerReview readOnePeerReview(@PathVariable int id) {
 		return peerreviewRepository.findOne(id);
 	}
 	
@@ -124,11 +124,11 @@ public class PeerReviewController {
 	}
 	
 	@RequestMapping(value="/api/peerreview/{id}/student")
-	@Secured(SecurityConfiguration.StudentRole)
-	public ResponseEntity<List<StudentPeerReview>> getStudentPeerReviews(@PathVariable int pid) {
+	//@Secured(SecurityConfiguration.StudentRole)
+	public ResponseEntity<List<StudentPeerReview>> getStudentPeerReviews(@PathVariable int id) {
 		int userId = auth.getActiveUser();
 		User u = userRepository.findOne(userId);
-		PeerReview pr = peerreviewRepository.findOne(pid);
+		PeerReview pr = peerreviewRepository.findOne(id);
 		List<StudentPeerReview> data = sprRepository.findByReviewerAndPeerReview(u, pr);
 		
 		return new ResponseEntity<>(data, HttpStatus.OK);

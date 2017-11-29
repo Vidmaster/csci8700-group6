@@ -1,5 +1,5 @@
 myApp.factory("peerreviewsFactory", function($http){
-	var getAll = '/api/peerreview/all'
+	var getAll = '/api/peerreview'
 	
 	
     var factory = {};
@@ -16,7 +16,7 @@ myApp.factory("peerreviewsFactory", function($http){
     factory.readPStudents = function(){
         return $http({
             method: 'GET',
-            url: '/api/student/all'
+            url: '/api/students'
         });
     };
     
@@ -33,12 +33,12 @@ myApp.factory("peerreviewsFactory", function($http){
 		return $http({
 			method: 'POST',
 			data: {
-				'peerreviewName' : $scope.name,
-				'peerreviewDescription' : $scope.description,
-				'peerreviewStudents' : $scope.selectedStudents.toString(),
-				'peerreviewMetrics' : $scope.selectedMetrics.toString()
+				'name' : $scope.name,
+				'description' : $scope.description,
+				'peerreviewStudents' : $scope.selectedStudents,
+				'metrics' : $scope.selectedMetrics
 			},
-			url: '/api/peerreview/create'
+			url: '/api/peerreview'
 		});
 	};
 	 
@@ -46,7 +46,7 @@ myApp.factory("peerreviewsFactory", function($http){
 	factory.readOnePeerreview = function(id){
 		return $http({
 			method: 'GET',
-			url: '/api/peerreview/read_one?id=' + id
+			url: '/api/peerreview/' + id
 		});
 	};
 	 
@@ -79,7 +79,7 @@ myApp.factory("peerreviewsFactory", function($http){
 	factory.searchPeerreviews = function(keywords){
 		return $http({
 			method: 'GET',
-			url: '/api/peerreview/search?s=' + keywords
+			url: '/api/peerreview?s=' + keywords
 		});
 	};
 	
@@ -88,7 +88,7 @@ myApp.factory("peerreviewsFactory", function($http){
 		return $http({
 			method: 'POST',
 			data: { 'id' : id },
-			url: '/api/peerreview/run'
+			url: '/api/peerreview/' + id + '/run'
 		});
 	};
 	

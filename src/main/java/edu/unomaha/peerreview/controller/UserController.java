@@ -93,13 +93,16 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/api/users/{id}", method=RequestMethod.PUT)
-	public void updateUser(@PathVariable(value="id") int id, @RequestParam(value="email", defaultValue="") String email) {
+	public ResponseEntity<ServiceResponse> updateUser(@PathVariable(value="id") int id, @RequestParam(value="email", defaultValue="") String email) {
 		
 		if (auth.isAuthorized(id)) {
 			User user = userRepo.findOne(id);
 			user.setEmail(email);
 			
 			userRepo.save(user);
+			return new ResponseEntity<>(new ServiceResponse(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(new ServiceResponse("Not Authorized", false), HttpStatus.UNAUTHORIZED);
 		}
 	}
 	

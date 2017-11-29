@@ -6,7 +6,7 @@ myApp.factory("studentsFactory", function($http){
     factory.readStudents = function(){
         return $http({
             method: 'GET',
-            url: '/api/student/all'
+            url: '/api/students'
         });
     };
      
@@ -26,7 +26,7 @@ myApp.factory("studentsFactory", function($http){
 	factory.readOneStudent = function(id){
 		return $http({
 			method: 'GET',
-			url: '/api/student/read_one?id=' + id
+			url: '/api/users/' + id
 		});
 	};
 	 
@@ -34,13 +34,13 @@ myApp.factory("studentsFactory", function($http){
 	factory.updateStudent = function($scope){
 	 
 		return $http({
-			method: 'POST',
+			method: 'PUT',
 			data: {
 				'id' : $scope.id,
 				'studentName' : $scope.studentName,
 				'studentEmailAddress' : $scope.emailAddress
 			},
-			url: '/api/student/update'
+			url: '/api/users/' + $scope.id
 		});
 	};
 	 
@@ -57,7 +57,7 @@ myApp.factory("studentsFactory", function($http){
 	factory.searchStudents = function(keywords){
 		return $http({
 			method: 'GET',
-			url: '/api/student/search?s=' + keywords
+			url: '/api/users?username=' + keywords
 		});
 	};
      

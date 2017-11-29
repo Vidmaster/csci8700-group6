@@ -33,6 +33,7 @@ myApp.controller('peerreviewsController', function($scope, $element, $mdDialog, 
  
         // use peerreviews factory
     	peerreviewsFactory.readPeerreviews().then(function successCallback(response){
+    		console.log('read peer reviews');
     		console.log(response);
             $scope.peerreviews = response.data;
         }, function errorCallback(response){

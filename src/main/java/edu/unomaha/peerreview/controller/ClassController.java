@@ -1,5 +1,6 @@
 package edu.unomaha.peerreview.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.unomaha.peerreview.config.SecurityConfiguration;
@@ -36,6 +38,21 @@ public class ClassController {
 		return new ResponseEntity<>(new ServiceResponse("OK", true), HttpStatus.OK);
 	}
 
+	@RequestMapping(value="/api/users/{id}/classes", method=RequestMethod.GET)
+	public ResponseEntity<List<Clazz>> getClassesByInstructor(@PathVariable int id) {
+		List<Clazz> classes = classRepository.findByInstructorId(id);
+		
+		return new ResponseEntity<>(classes, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/api/class", method=RequestMethod.GET)
+	public ResponseEntity<List<Clazz>> getClasses() {
+		List<Clazz> classes = new ArrayList<Clazz>();
+		classRepository.findAll().forEach(x -> classes.add(x));
+		
+		return new ResponseEntity<>(classes, HttpStatus.OK);
+	}
+	
 	@Secured(SecurityConfiguration.ProfessorRole)
 	@RequestMapping(value="/api/class/{id}/students", method=RequestMethod.GET)
 	public ResponseEntity<List<User>> getClassStudents(@PathVariable int id) {

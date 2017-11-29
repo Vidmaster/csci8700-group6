@@ -40,8 +40,8 @@ public class Clazz {
 	    )
 	List<User> students = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "id")
-	List<PeerReview> peerReviews;
+//	@OneToMany(mappedBy = "id")
+//	List<PeerReview> peerReviews;
 
 	public int getId() {
 		return id;
@@ -75,13 +75,13 @@ public class Clazz {
 		this.students = students;
 	}
 
-	public List<PeerReview> getPeerReviews() {
-		return peerReviews;
-	}
-
-	public void setPeerReviews(List<PeerReview> peerReviews) {
-		this.peerReviews = peerReviews;
-	}
+//	public List<PeerReview> getPeerReviews() {
+//		return peerReviews;
+//	}
+//
+//	public void setPeerReviews(List<PeerReview> peerReviews) {
+//		this.peerReviews = peerReviews;
+//	}
 	
 	
 }

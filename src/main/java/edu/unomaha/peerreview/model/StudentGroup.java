@@ -24,9 +24,9 @@ public class StudentGroup {
 	@Column
 	int id;
 	
-	@ManyToOne
-	@JoinColumn(name="peerReviewId")
-	PeerReview peerReview;
+//	@ManyToOne
+//	@JoinColumn(name="peerReviewId")
+//	PeerReview peerReview;
 	
 	@Column
 	String groupName;
@@ -47,13 +47,13 @@ public class StudentGroup {
 		this.id = id;
 	}
 
-	public PeerReview getPeerReview() {
-		return peerReview;
-	}
-
-	public void setPeerReview(PeerReview peerReview) {
-		this.peerReview = peerReview;
-	}
+//	public PeerReview getPeerReview() {
+//		return peerReview;
+//	}
+//
+//	public void setPeerReview(PeerReview peerReview) {
+//		this.peerReview = peerReview;
+//	}
 
 	public String getGroupName() {
 		return groupName;

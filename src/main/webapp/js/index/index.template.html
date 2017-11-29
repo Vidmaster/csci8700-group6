@@ -1,17 +1,36 @@
-<h1>Peer Review Application</h1>
+<!-- <h1>Peer Review Application</h1> -->
 
-<p>
-<a href="#!/login">Login</a>
-<a href="#!/register">Register</a>
-<a href="/test.html">Test.html</a>
-<a href="/test2.html">Test2.html</a>
-<a href="" ng-click="$parent.logout()" target="_self">Logout</a>
-</p>
-
+<!-- <p> -->
+<!-- 	<a href="#!/login">Login</a> -->
+<!-- 	<a href="#!/register">Register</a> -->
+<!-- 	<a href="/test.html">Test.html</a> -->
+<!-- 	<a href="/test2.html">Test2.html</a> -->
+<!-- 	<a href="" ng-click="$parent.logout()" target="_self">Logout</a> -->
+<!-- </p> -->
 <div ng-controller="index">
-<div ng-if="student"><ng-include src="'/test2.html'"></ng-include></div>
+  <md-toolbar md-scroll-shrink>
+	<div class = "md-toolbar-tools">
+	  <h1><b>Peer Review App.</b> ({{$parent.$parent.user.principal.userRole}})</h1>
+	  <div layout="row" layout-align="end center" flex>
+		Welcome back {{$parent.$parent.user.principal.username}}!&nbsp;<a href="" ng-click="$parent.$parent.logout()" target="_self">Logout</a>
+	  </div>
+	</div>
+	
+	</md-toolbar>
 
-<div ng-if="!student"><ng-include src="'/test.html'"></ng-include></div>
+	<div layout="column" layout-fill>
+		<div ng-if="student"><ng-include src="'/js/index/student.html'"></ng-include></div>
+		<div ng-if="!student"><ng-include src="'/js/index/professor.html'"></ng-include></div>
+	<!-- https://stackoverflow.com/questions/38164716/angular-material-toolbar-height-issue --> 
+	<footer>
+	  <md-toolbar class="site-footer" md-scroll-shrink>
+		<!-- https://material.angularjs.org/latest/layout/alignment -->
+		<div class = "md-toolbar-tools" layout="row" layout-align="end center">
+		  &#169; RE Squad
+		</div>
+	  </md-toolbar>
+	</footer>
+	</div>
 
-<p>Logged in user role is: {{$parent.$parent.user.principal.userRole}}</p>
+<!-- <p>Logged in user role is: {{$parent.$parent.user.principal.userRole}}</p> -->
 </div>

@@ -6,7 +6,7 @@ myAppStudentView.factory("questionnairesFactory", function($http){
     factory.readQuestionnaires = function(){
         return $http({
             method: 'GET',
-            url: '/api/questionnaire/all'
+            url: '/api/peerreview/student'
         });
     };
     

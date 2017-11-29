@@ -86,8 +86,8 @@ myApp.controller('studentsController', function($scope, $mdDialog, $mdToast, stu
 	 
 			// put the values in form
 			$scope.id = response.data.id;
-			$scope.studentName = response.data.studentName;
-			$scope.emailAddress = response.data.studentEmailAddress;
+			$scope.studentName = response.data.name;
+			$scope.emailAddress = response.data.email;
 	 
 			$mdDialog.show({
 				controller: DialogController,
@@ -147,8 +147,8 @@ myApp.controller('studentsController', function($scope, $mdDialog, $mdToast, stu
 	 
 			// put the values in form
 			$scope.id = response.data.id;
-			$scope.studentName = response.data.studentName;
-			$scope.emailAddress = response.data.studentEmailAddress;
+			$scope.studentName = response.data.username;
+			$scope.emailAddress = response.data.email;
 	 
 			$mdDialog.show({
 				controller: DialogController,
@@ -206,7 +206,7 @@ myApp.controller('studentsController', function($scope, $mdDialog, $mdToast, stu
 	$scope.updateStudent = function(){
 	 
 		studentsFactory.updateStudent($scope).then(function successCallback(response){
-	 
+			console.log(response);
 			// tell the user student record was updated
 			$scope.showToast(response.data.message);
 	 
