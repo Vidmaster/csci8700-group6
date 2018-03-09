@@ -1,0 +1,7 @@
+  Current Status: <div *ngIf="status; else elseBlock">
+    <i class="fas fa-check-circle" color="green"></i>
+  </div>
+  <ng-template #elseBlock>
+    <div><i class="fas fa-times-circle" color="red"></i></div>
+  </ng-template>
+  <button (click)="start()">start</button><button (click)="stop()">stop</button>
